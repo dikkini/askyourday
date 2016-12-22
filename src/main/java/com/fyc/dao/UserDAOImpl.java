@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -15,7 +16,7 @@ import javax.persistence.criteria.Root;
 public class UserDAOImpl extends GenericDAOImpl<User, String> implements UserDAO {
 
     @Override
-    public User findByUsername(String username) {
+    public User findByUsername(String username) throws NoResultException {
         EntityManager em = sessionFactory.createEntityManager();
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<User> criteriaQuery = builder.createQuery(User.class);
@@ -27,7 +28,7 @@ public class UserDAOImpl extends GenericDAOImpl<User, String> implements UserDAO
     }
 
     @Override
-    public User findByEmail(String email) {
+    public User findByEmail(String email) throws NoResultException {
         EntityManager em = sessionFactory.createEntityManager();
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<User> criteriaQuery = builder.createQuery(User.class);

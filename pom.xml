@@ -203,7 +203,11 @@
             <version>20.0</version>
         </dependency>
 
-
+        <dependency>
+            <groupId>com.github.scribejava</groupId>
+            <artifactId>scribejava-apis</artifactId>
+            <version>3.4.1</version>
+        </dependency>
     </dependencies>
 
 </project>

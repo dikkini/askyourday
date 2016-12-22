@@ -12,7 +12,6 @@ public class UserDTO {
     @NotNull
     @Size(min = 2, max = 30)
     private String password;
-    private String matchingPassword;
 
     @NotNull
     @Size(max = 30)
@@ -26,10 +25,6 @@ public class UserDTO {
         this.password = password;
     }
 
-    public void setMatchingPassword(String matchingPassword) {
-        this.matchingPassword = matchingPassword;
-    }
-
     public void setEmail(String email) {
         this.email = email;
     }
@@ -40,10 +35,6 @@ public class UserDTO {
 
     public String getPassword() {
         return password;
-    }
-
-    public String getMatchingPassword() {
-        return matchingPassword;
     }
 
     public String getEmail() {

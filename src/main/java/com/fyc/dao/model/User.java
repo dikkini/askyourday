@@ -206,7 +206,7 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "TPUser{" +
+        return "User{" +
                 "uuid='" + uuid + '\'' +
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +

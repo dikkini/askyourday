@@ -3,7 +3,7 @@ $(document).ready(function() {
 	var $cal = $("#calendar");
 	var calendar = $cal.calendar({
 		language: 'ru-RU',
-		tmpl_path: "/assets/bootstrap-calendar/tmpls/",
+		tmpl_path: "/assets/ext/bootstrap-calendar/tmpls/",
 		tmpl_cache: false,
 		views: {
 			year:  {

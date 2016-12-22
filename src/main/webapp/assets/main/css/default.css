@@ -38,7 +38,7 @@ a#signup_tab {
 }
 
 /* social links */
-#login_modal .social {
+#login .social {
     margin: 0 !important;
     font-size: 25px !important;
 }
@@ -52,8 +52,7 @@ a#signup_tab {
 */
 
 .modal-content {
-    width: 400px;
-    margin-left: 150px;
+    width: 600px;
     margin-top: 40%;
     /*background-color: #FCFBE3;*/
     border-color: white;
@@ -275,10 +274,7 @@ header:before {
 /* scrolldown link */
 .scrolldown a {
     position: absolute;
-    bottom: 30px;
     left: 50%;
-    margin-left: -29px;
-    color: #fff;
     display: block;
     height: 42px;
     width: 42px;

@@ -10,8 +10,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.NoResultException;
+
 @Service
-@Transactional
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -26,12 +27,24 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findByUsername(String username) {
-        return userDAO.findByUsername(username);
+        User user;
+        try {
+            user = userDAO.findByUsername(username);
+        } catch (NoResultException e) {
+            user = null;
+        }
+        return user;
     }
 
     @Override
     public User findByEmail(String email) {
-        return userDAO.findByEmail(email);
+        User user;
+        try {
+            user = userDAO.findByEmail(email);
+        } catch (NoResultException e) {
+            user = null;
+        }
+        return user;
     }
 
     @Override
@@ -46,6 +59,7 @@ public class UserServiceImpl implements UserService {
         return user != null;
     }
 
+    @Transactional
     @Override
     public User create(UserDTO userDTO) {
 

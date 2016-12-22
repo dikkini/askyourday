@@ -2,6 +2,8 @@ package com.fyc.dao;
 
 import com.fyc.dao.model.User;
 
+import javax.persistence.NoResultException;
+
 public interface UserDAO {
 
     /**
@@ -10,7 +12,7 @@ public interface UserDAO {
      * @param username username
      * @return модель пользователя с деталями
      */
-    User findByUsername(String username);
+    User findByUsername(String username) throws NoResultException;
 
     /**
      * Поиск пользователя по email
@@ -18,6 +20,6 @@ public interface UserDAO {
      * @param email email
      * @return
      */
-    User findByEmail(String email);
+    User findByEmail(String email) throws NoResultException;
 
 }

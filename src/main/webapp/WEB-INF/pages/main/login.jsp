@@ -9,6 +9,9 @@
 <html>
 <head>
     <jsp:include page="../partitial/head.jsp"/>
+
+    <script src="${pageContext.request.contextPath}/assets/main/js/login.js" type="text/javascript" charset="utf-8"></script>
+
     <title>5 years calendar</title>
 </head>
 <body>
@@ -17,22 +20,27 @@
     <jsp:include page="../partitial/header.jsp"/>
 </header>
 
-<section id="main">
+<section id="login">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
                 <h5 class="modal-title">
-                    <label><a id="login_tab" href="#login" class="login_form">LOG IN</a></label><small>  or</small>
-                    <label class="color-orange"><a id="signup_tab" href="#signup" class="login_form">SIGN UP</a></label>
+                    <label><a id="login_tab" href="javascript:void(0)" class="login_form">LOG IN</a></label><small>  or</small>
+                    <label class="color-orange"><a id="signup_tab" href="javascript:void(0)" class="login_form">SIGN UP</a></label>
                 </h5>
             </div>
             <div class="modal-body">
-                <div id="login_form">
+                <c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION}">
+                    <div class="error-message">
+                        Your login attempt was not successful due to <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.localizedMessage}"/>.
+                    </div>
+                </c:if>
+                <form id="logsig-form" method="post" action="${pageContext.request.contextPath}/security_check">
                     <div style="padding-bottom: 5px" class="row">
                         <div class="col-lg-12">
                             <div id="error-alert" role="alert" style="display: none;" class="alert alert-danger">
-                                <button type="button" data-dismiss="alert" aria-label="Close" class="close"><span aria-hidden="true">&times;</span></button><strong id="error-message"></strong>
+                                <button type="button" data-dismiss="alert" aria-label="Close" class="close"><span aria-hidden="true">&times;</span></button><strong id="error-data"></strong>
                             </div>
                         </div>
                     </div>
@@ -43,53 +51,53 @@
                     <div style="padding-bottom: 5px;" class="row">
                         <div class="col-lg-6">
                             <div class="input-group">
-                                <input id="username_input" type="text" placeholder="Username" class="form-control"><span id="username_input-success" aria-hidden="true" style="display: none;" class="glyphicon glyphicon-ok form-control-feedback"></span><span id="username_input-failed" aria-hidden="true" style="display: none;" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                                <input id="username_input" type="text" name="username" placeholder="Username" class="form-control"><span id="username_input-success" aria-hidden="true" style="display: none;" class="glyphicon glyphicon-ok form-control-feedback"></span><span id="username_input-failed" aria-hidden="true" style="display: none;" class="glyphicon glyphicon-remove form-control-feedback"></span>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="input-group">
-                                <input id="password_input" type="password" placeholder="Password" class="form-control"><span id="password_input-success" aria-hidden="true" style="display: none;" class="glyphicon glyphicon-ok form-control-feedback"></span><span id="password_input-failed" aria-hidden="true" style="display: none;" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                                <input id="password_input" type="password" name="password" placeholder="Password" class="form-control"><span id="password_input-success" aria-hidden="true" style="display: none;" class="glyphicon glyphicon-ok form-control-feedback"></span><span id="password_input-failed" aria-hidden="true" style="display: none;" class="glyphicon glyphicon-remove form-control-feedback"></span>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div id="register_form" style="display: none;">
+                    <div id="signup_part_form" style="display: none;">
+                        <div style="padding-bottom: 5px;" class="row">
+                            <div class="col-lg-6"><span><i class="glyphicon glyphicon-envelope"></i> EMAIL</span></div>
+                            <div class="col-lg-6"><span><i class="glyphicon glyphicon-lock"></i> REPEAT PASSWORD</span></div>
+                        </div>
+                        <div style="padding-bottom: 5px;" class="row">
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <input id="email_input" type="text" name="email" placeholder="Email" class="form-control" disabled="disabled"><span id="email_input-success" aria-hidden="true" style="display: none;" class="glyphicon glyphicon-ok form-control-feedback"></span><span id="email_input-failed" aria-hidden="true" style="display: none;" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <input id="password_confirm_input" type="password" placeholder="Password" class="form-control"><span id="password_confirm_input-success" aria-hidden="true" style="display: none;" class="glyphicon glyphicon-ok form-control-feedback"></span><span id="password_confirm_input-failed" aria-hidden="true" style="display: none;" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div style="padding-bottom: 5px;" class="row">
-                        <div class="col-lg-6"><span><i class="glyphicon glyphicon-envelope"></i> EMAIL</span></div>
-                        <div class="col-lg-6"><span><i class="glyphicon glyphicon-lock"></i> REPEAT PASSWORD</span></div>
-                    </div>
-                    <div style="padding-bottom: 5px;" class="row">
-                        <div class="col-lg-6">
-                            <div class="input-group">
-                                <input id="email_input" type="text" placeholder="Email" class="form-control"><span id="email_input-success" aria-hidden="true" style="display: none;" class="glyphicon glyphicon-ok form-control-feedback"></span><span id="email_input-failed" aria-hidden="true" style="display: none;" class="glyphicon glyphicon-remove form-control-feedback"></span>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="input-group">
-                                <input id="password_confirm_input" type="password" placeholder="Password" class="form-control"><span id="password_confirm_input-success" aria-hidden="true" style="display: none;" class="glyphicon glyphicon-ok form-control-feedback"></span><span id="password_confirm_input-failed" aria-hidden="true" style="display: none;" class="glyphicon glyphicon-remove form-control-feedback"></span>
-                            </div>
+                        <div class="col-lg-12">
+                            <label style="float: right;">
+                                <input id="show_password_cb" type="checkbox" style="margin-right: 5px;">Show Password
+                            </label>
                         </div>
                     </div>
-                </div>
-                <div style="padding-bottom: 5px;" class="row">
-                    <div class="col-lg-12">
-                        <label style="float: right;">
-                            <input id="show_password_cb" type="checkbox" style="margin-right: 5px;">Show Password
-                        </label>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <ul class="social">
+                                <li><a target="_blank" href="https://www.facebook.com/?q=#/dikkini"><i class="fa fa-facebook"></i></a></li>
+                                <li><a target="_blank" href="https://twitter.com/dikkini"><i class="fa fa-twitter"></i></a></li>
+                                <li><a target="_blank" href="http://vk.com/dikkini"><i class="fa fa-vk"></i></a></li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-6">
+                            <button id="login_btn" type="submit" class="btn btn-warning btn-block">Log In</button>
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-6">
-                        <ul class="social">
-                            <li><a target="_blank" href="https://www.facebook.com/?q=#/dikkini"><i class="fa fa-facebook"></i></a></li>
-                            <li><a target="_blank" href="https://twitter.com/dikkini"><i class="fa fa-twitter"></i></a></li>
-                            <li><a target="_blank" href="http://vk.com/dikkini"><i class="fa fa-vk"></i></a></li>
-                        </ul>
-                    </div>
-                    <div class="col-lg-6">
-                        <button id="login_btn" type="button" class="btn btn-warning btn-block">Log In</button>
-                    </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>
