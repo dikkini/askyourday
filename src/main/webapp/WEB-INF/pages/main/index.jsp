@@ -21,12 +21,8 @@
     <div class="row text-center">
         <div class="banner-text">
             <h1 class="responsive-headline">Five Years Calendar</h1>
-            <div class="btn-group">
-                <button type="button" onclick="location.href='demo';" class="btn btn-warning btn-circle">Demo</button>
-                <button type="button" onclick="location.href='login';" class="btn btn-warning btn-circle">Login/Signup</button>
-            </div>
             <div>
-                <label style="padding-top: 20px;"> or signup using social networks</label>
+                <label style="padding-top: 20px;"> расскажите о нас в социальных сетях</label>
             </div>
             <ul class="social">
                 <li><a target="_blank" href="https://www.facebook.com/?q=#/dikkini"><i class="fa fa-facebook"></i></a></li>

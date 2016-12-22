@@ -55,7 +55,7 @@ $(document).ready(function () {
 		}
 		CURRENT_FORM_ACTION = FORM_ACTION_LOGIN;
 		$loginBtn.fadeOut(500, function() {
-			$(this).text('Log In').fadeIn(500);
+			$(this).text('Войти').fadeIn(500);
 			$signupPartForm.fadeOut(1000);
 		});
 		//$loginBtn.slideDown(500);
@@ -81,7 +81,7 @@ $(document).ready(function () {
 		}
 		CURRENT_FORM_ACTION = FORM_ACTION_SIGNUP;
 		$loginBtn.fadeOut(500, function() {
-			$(this).text('Sign Up').fadeIn(500);
+			$(this).text('Зарегистрироваться').fadeIn(500);
 			$signupPartForm.fadeIn(1000);
 		});
 		//$loginBtn.slideDown(500);

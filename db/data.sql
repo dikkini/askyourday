@@ -12,3 +12,10 @@ INSERT INTO public.roles_privileges (role_id, privilege_id) VALUES (1, 1);
 INSERT INTO public.roles_privileges (role_id, privilege_id) VALUES (1, 2);
 INSERT INTO public.roles_privileges (role_id, privilege_id) VALUES (2, 1);
 INSERT INTO public.roles_privileges (role_id, privilege_id) VALUES (2, 2);
+
+/* QUESTIONS START */
+INSERT INTO public.question (question, day, month, year) VALUES ('Как тебя зовут?', '01', '01', '2017');
+INSERT INTO public.question (question, day, month, year) VALUES ('Как у тебя дела?', '02', '01', '2017');
+INSERT INTO public.question (question, day, month, year) VALUES ('Когда у тебя день рождение?', '03', '01', '2017');
+INSERT INTO public.question (question, day, month, year) VALUES ('Что ты кушал сегодня?', '04', '01', '2017');
+/* QUESTIONS END */

@@ -47,10 +47,32 @@ $(document).ready(function() {
 
 
 	$cal.on("click", ".cal-cell", function() {
-		console.log($(this).find("div > span").data("cal-date"));
-		$('html, body').animate({
-			scrollTop: $("#question-day").offset().top
-		}, 500);
+		var date = $(this).find("div > span").data("cal-date");
+		var dateSpitted = date.split("-");
+
+		var data = {
+			day: dateSpitted[2],
+			month: dateSpitted[1],
+			year: dateSpitted[0]
+		};
+
+		$.ajax({
+			type: "POST",
+			url: "/calendar/getQuestion",
+			cache: false,
+			data: data,
+			success: function (response) {
+				console.log(response);
+
+				$('html, body').animate({
+					scrollTop: $("#question-day").offset().top
+				}, 500);
+			},
+			error: function (response) {
+				console.log("error");
+				console.log(response);
+			}
+		});
 	})
 
 });

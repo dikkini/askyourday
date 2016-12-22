@@ -11,15 +11,15 @@
 <header id="header">
     <nav id="nav-wrap">
         <ul id="nav" class="nav">
-            <li><a data-page="${pageContext.request.contextPath}/main" href="${pageContext.request.contextPath}/">Main</a></li>
+            <li><a data-page="${pageContext.request.contextPath}/main" href="${pageContext.request.contextPath}/">Главная</a></li>
             <sec:authorize access="isAnonymous()">
-                <li><a data-page="${pageContext.request.contextPath}/demo" href="${pageContext.request.contextPath}/demo">Demo</a></li>
+                <li><a data-page="${pageContext.request.contextPath}/demo" href="${pageContext.request.contextPath}/demo">Демо</a></li>
             </sec:authorize>
             <sec:authorize access="isAnonymous()">
-                <li><a data-page="${pageContext.request.contextPath}/login" href="${pageContext.request.contextPath}/login">Login/Signup</a></li>
+                <li><a data-page="${pageContext.request.contextPath}/login" href="${pageContext.request.contextPath}/login">Вход</a></li>
             </sec:authorize>
             <sec:authorize access="isAuthenticated()">
-                <li><a data-page="${pageContext.request.contextPath}/calendar" href="${pageContext.request.contextPath}/calendar">Calendar</a></li>
+                <li><a data-page="${pageContext.request.contextPath}/calendar" href="${pageContext.request.contextPath}/calendar">Календарь</a></li>
             </sec:authorize>
             <sec:authorize access="isAuthenticated()">
                 <li><a href="${pageContext.request.contextPath}/logout">Logout (<c:out value="${user.username}"/>)</a></li>

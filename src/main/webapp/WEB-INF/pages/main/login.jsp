@@ -26,14 +26,14 @@
             <div class="modal-header">
                 <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
                 <h5 class="modal-title">
-                    <label><a id="login_tab" href="javascript:void(0)" class="login_form">LOG IN</a></label><small>  or</small>
-                    <label class="color-orange"><a id="signup_tab" href="javascript:void(0)" class="login_form">SIGN UP</a></label>
+                    <label><a id="login_tab" href="javascript:void(0)" class="login_form">ВОЙТИ</a></label><small>  или</small>
+                    <label class="color-orange"><a id="signup_tab" href="javascript:void(0)" class="login_form">ЗАРЕГИСТРИРУЙТЕСЬ</a></label>
                 </h5>
             </div>
             <div class="modal-body">
                 <c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION}">
                     <div class="error-message">
-                        Your login attempt was not successful due to <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.localizedMessage}"/>.
+                        Ошибка входа <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.localizedMessage}"/>.
                     </div>
                 </c:if>
                 <form id="logsig-form" method="post" action="${pageContext.request.contextPath}/security_check">
@@ -45,35 +45,35 @@
                         </div>
                     </div>
                     <div style="padding-bottom: 5px" class="row">
-                        <div class="col-lg-6"><span><i class="glyphicon glyphicon-user"></i> USERNAME</span></div>
-                        <div class="col-lg-6"><span><i class="glyphicon glyphicon-lock"></i> PASSWORD</span></div>
+                        <div class="col-lg-6"><span><i class="glyphicon glyphicon-user"></i> НИКНЕЙМ</span></div>
+                        <div class="col-lg-6"><span><i class="glyphicon glyphicon-lock"></i> ПАРОЛЬ</span></div>
                     </div>
                     <div style="padding-bottom: 5px;" class="row">
                         <div class="col-lg-6">
                             <div class="input-group">
-                                <input id="username_input" type="text" name="username" placeholder="Username" class="form-control"><span id="username_input-success" aria-hidden="true" style="display: none;" class="glyphicon glyphicon-ok form-control-feedback"></span><span id="username_input-failed" aria-hidden="true" style="display: none;" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                                <input id="username_input" type="text" name="username" placeholder="Введите никнейм" class="form-control"><span id="username_input-success" aria-hidden="true" style="display: none;" class="glyphicon glyphicon-ok form-control-feedback"></span><span id="username_input-failed" aria-hidden="true" style="display: none;" class="glyphicon glyphicon-remove form-control-feedback"></span>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="input-group">
-                                <input id="password_input" type="password" name="password" placeholder="Password" class="form-control"><span id="password_input-success" aria-hidden="true" style="display: none;" class="glyphicon glyphicon-ok form-control-feedback"></span><span id="password_input-failed" aria-hidden="true" style="display: none;" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                                <input id="password_input" type="password" name="password" placeholder="Введите пароль" class="form-control"><span id="password_input-success" aria-hidden="true" style="display: none;" class="glyphicon glyphicon-ok form-control-feedback"></span><span id="password_input-failed" aria-hidden="true" style="display: none;" class="glyphicon glyphicon-remove form-control-feedback"></span>
                             </div>
                         </div>
                     </div>
                     <div id="signup_part_form" style="display: none;">
                         <div style="padding-bottom: 5px;" class="row">
-                            <div class="col-lg-6"><span><i class="glyphicon glyphicon-envelope"></i> EMAIL</span></div>
-                            <div class="col-lg-6"><span><i class="glyphicon glyphicon-lock"></i> REPEAT PASSWORD</span></div>
+                            <div class="col-lg-6"><span><i class="glyphicon glyphicon-envelope"></i> ПОЧТА</span></div>
+                            <div class="col-lg-6"><span><i class="glyphicon glyphicon-lock"></i> ПОВТОРИТЕ ПАРОЛЬ</span></div>
                         </div>
                         <div style="padding-bottom: 5px;" class="row">
                             <div class="col-lg-6">
                                 <div class="input-group">
-                                    <input id="email_input" type="text" name="email" placeholder="Email" class="form-control" disabled="disabled"><span id="email_input-success" aria-hidden="true" style="display: none;" class="glyphicon glyphicon-ok form-control-feedback"></span><span id="email_input-failed" aria-hidden="true" style="display: none;" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                                    <input id="email_input" type="text" name="email" placeholder="Введите эл. почту" class="form-control" disabled="disabled"><span id="email_input-success" aria-hidden="true" style="display: none;" class="glyphicon glyphicon-ok form-control-feedback"></span><span id="email_input-failed" aria-hidden="true" style="display: none;" class="glyphicon glyphicon-remove form-control-feedback"></span>
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="input-group">
-                                    <input id="password_confirm_input" type="password" placeholder="Password" class="form-control"><span id="password_confirm_input-success" aria-hidden="true" style="display: none;" class="glyphicon glyphicon-ok form-control-feedback"></span><span id="password_confirm_input-failed" aria-hidden="true" style="display: none;" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                                    <input id="password_confirm_input" type="password" placeholder="Введите повторный пароль" class="form-control"><span id="password_confirm_input-success" aria-hidden="true" style="display: none;" class="glyphicon glyphicon-ok form-control-feedback"></span><span id="password_confirm_input-failed" aria-hidden="true" style="display: none;" class="glyphicon glyphicon-remove form-control-feedback"></span>
                                 </div>
                             </div>
                         </div>
@@ -81,7 +81,7 @@
                     <div style="padding-bottom: 5px;" class="row">
                         <div class="col-lg-12">
                             <label style="float: right;">
-                                <input id="show_password_cb" type="checkbox" style="margin-right: 5px;">Show Password
+                                <input id="show_password_cb" type="checkbox" style="margin-right: 5px;">Показать пароль
                             </label>
                         </div>
                     </div>
@@ -94,7 +94,7 @@
                             </ul>
                         </div>
                         <div class="col-lg-6">
-                            <button id="login_btn" type="submit" class="btn btn-warning btn-block">Log In</button>
+                            <button id="login_btn" type="submit" class="btn btn-warning btn-block">Войти</button>
                         </div>
                     </div>
                 </form>
