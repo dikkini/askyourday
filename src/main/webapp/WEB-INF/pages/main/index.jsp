@@ -42,12 +42,6 @@
             <hr>
         </div>
     </div>
-    <p class="scrolldown"><a href="#footer" class="smoothscroll"><i class="icon-down-circle color-black"></i></a></p>
 </section>
-
-<footer id="footer">
-    <jsp:include page="../partitial/footer.jsp"/>
-</footer>
-
 </body>
 </html>

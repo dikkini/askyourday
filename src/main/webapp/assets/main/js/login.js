@@ -201,6 +201,11 @@ $(document).ready(function () {
 			success: function (response) {
 				console.log(response);
 				if (response.success) {
+					$emailInputSignSuccess.hide();
+					$emailInputSignFailed.show();
+					//$loginBtn.addClass("disabled");
+					EMAIL_SUCCESS = false;
+				} else {
 					$emailInputSignSuccess.show();
 					$emailInputSignFailed.hide();
 					EMAIL_SUCCESS = true;
@@ -208,11 +213,6 @@ $(document).ready(function () {
 					if (USERNAME_SUCCESS && PASSWORD_SUCCESS && PASSWORD_CONFIRM_SUCCESS) {
 						//$loginBtn.removeClass("disabled");
 					}
-				} else {
-					$emailInputSignSuccess.hide();
-					$emailInputSignFailed.show();
-					//$loginBtn.addClass("disabled");
-					EMAIL_SUCCESS = false;
 				}
 
 				return EMAIL_SUCCESS;

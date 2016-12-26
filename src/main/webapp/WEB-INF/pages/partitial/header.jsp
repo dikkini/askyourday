@@ -1,3 +1,4 @@
+<%@ page import="com.fyc.dao.model.User" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <%@ taglib prefix="c"      uri="http://java.sun.com/jsp/jstl/core"%>
@@ -7,6 +8,10 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <sec:authentication var="user" property="principal"/>
+
+<script type="text/javascript">
+var userUuid = "${pageContext['request'].userPrincipal.principal.uuid}";
+</script>
 
 <header id="header">
     <nav id="nav-wrap">
@@ -22,7 +27,7 @@
                 <li><a data-page="${pageContext.request.contextPath}/calendar" href="${pageContext.request.contextPath}/calendar">Календарь</a></li>
             </sec:authorize>
             <sec:authorize access="isAuthenticated()">
-                <li><a href="${pageContext.request.contextPath}/logout">Logout (<c:out value="${user.username}"/>)</a></li>
+                <li><a href="${pageContext.request.contextPath}/logout">Выход (<c:out value="${user.username}"/>)</a></li>
             </sec:authorize>
         </ul>
     </nav>

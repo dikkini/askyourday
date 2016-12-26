@@ -57,6 +57,9 @@ if(!String.prototype.formatNum) {
 		// - A function that received the start and end date, and that
 		//   returns an array of events (as described in events property description)
 		// - An array containing the events
+		events_source_custom: false,
+		events_source_url:  '',
+		events_source_params:  {},
 		events_source:      '',
 		// Path to templates should end with slash /. It can be as relative
 		// /component/bootstrap-calendar/tmpls/
@@ -845,6 +848,7 @@ if(!String.prototype.formatNum) {
 	Calendar.prototype._loadEvents = function() {
 		var self = this;
 		var source = null;
+		var date = self.options.day;
 		if('events_source' in this.options && this.options.events_source !== '') {
 			source = this.options.events_source;
 		}
@@ -853,42 +857,89 @@ if(!String.prototype.formatNum) {
 			warn('The events_url option is DEPRECATED and it will be REMOVED in near future. Please use events_source instead.');
 		}
 		var loader;
-		switch($.type(source)) {
-			case 'function':
-				loader = function() {
-					return source(self.options.position.start, self.options.position.end, browser_timezone);
-				};
-				break;
-			case 'array':
-				loader = function() {
-					return [].concat(source);
-				};
-				break;
-			case 'string':
-				if(source.length) {
-					loader = function() {
-						var events = [];
-						var params = {from: self.options.position.start.getTime(), to: self.options.position.end.getTime()};
-						if(browser_timezone.length) {
-							params.browser_timezone = browser_timezone;
-						}
-						$.ajax({
-							url:      buildEventsUrl(source, params),
-							dataType: 'json',
-							type:     'GET',
-							async:    false
-						}).done(function(json) {
-							if(!json.success) {
-								$.error(json.error);
-							}
-							if(json.result) {
-								events = json.result;
-							}
-						});
-						return events;
-					};
+		if (self.options.events_source_custom) {
+			loader = function() {
+				var events = [];
+				var url = self.options.events_source_url;
+				var params = self.options.events_source_params;
+				if (date != 'now') {
+					var dateSplitted = date.split("-");
+					var month = dateSplitted[1];
+					var year = dateSplitted[0];
+					params.month = month;
+					params.year = year;
 				}
-				break;
+
+				$.ajax({
+					url:   url,
+					type:  'GET',
+					data:  params,
+					async: false
+				}).done(function(response) {
+					if(!response.success) {
+						$.error(response.message);
+					} else {
+						var data = response.data;
+
+						for (var i = 0; i < data.length; i++) {
+							var userAnswer = data[i];
+							var question = userAnswer.question;
+							var event = {
+								"id": parseInt(i) + 100,
+								"title": question.question,
+								"text": userAnswer.answer,
+								"class": "event-important",
+								"start": new Date(question.year + "-" + question.month + "-" + question.day).getTime(),
+								"end": new Date(question.year + "-" + question.month + "-" + question.day).getTime()
+							};
+
+							events.push(event);
+						}
+					}
+				});
+				return events;
+			};
+		} else {
+			switch ($.type(source)) {
+				case 'function':
+					loader = function () {
+						return source(self.options.position.start, self.options.position.end, browser_timezone);
+					};
+					break;
+				case 'array':
+					loader = function () {
+						return [].concat(source);
+					};
+					break;
+				case 'string':
+					if (source.length) {
+						loader = function () {
+							var events = [];
+							var params = {
+								from: self.options.position.start.getTime(),
+								to: self.options.position.end.getTime()
+							};
+							if (browser_timezone.length) {
+								params.browser_timezone = browser_timezone;
+							}
+							$.ajax({
+								url: buildEventsUrl(source, params),
+								dataType: 'json',
+								type: 'GET',
+								async: false
+							}).done(function (json) {
+								if (!json.success) {
+									$.error(json.error);
+								}
+								if (json.result) {
+									events = json.result;
+								}
+							});
+							return events;
+						};
+					}
+					break;
+			}
 		}
 		if(!loader) {
 			$.error(this.locale.error_loadurl);
@@ -985,6 +1036,7 @@ if(!String.prototype.formatNum) {
 
 			var url = $(this).attr('href');
 			var id = $(this).data("event-id");
+			var text = $(this).data("event-text");
 			var event = _.find(self.options.events, function(event) {
 				return event.id == id
 			});
@@ -1009,11 +1061,14 @@ if(!String.prototype.formatNum) {
 									modal_body.html(data);
 								}});
 								break;
-
+							// render answer in modal body
+							case "text":
+								modal_body.find(".question-body").text(text);
+								break;
 							case "template":
 								self._loadTemplate("modal");
 								//	also serve calendar instance to underscore template to be able to access current language strings
-								modal_body.html(self.options.templates["modal"]({"event": event, "calendar": self}))
+								modal_body.html(self.options.templates["modal"]({"event": event, "calendar": self}));
 								break;
 						}
 
@@ -1060,7 +1115,7 @@ if(!String.prototype.formatNum) {
 				p.setDate(parseInt(day));
 				day = (day < 10 ? '0' + day : day);
 				week.html(self.locale.week.format(p.getWeek()));
-				week.attr('data-cal-week', start + day).show().appendTo(child);
+				//week.attr('data-cal-week', start + day).show().appendTo(child);
 			})
 			.on('mouseleave', function() {
 				week.hide();
@@ -1092,7 +1147,7 @@ if(!String.prototype.formatNum) {
 			.on('mouseenter', function() {
 				if($('.events-list', this).length == 0) return;
 				if($(this).children('[data-cal-date]').text() == self.activecell) return;
-				downbox.show().appendTo(this);
+				//downbox.show().appendTo(this);
 			})
 			.on('mouseleave', function() {
 				downbox.hide();
@@ -1100,7 +1155,7 @@ if(!String.prototype.formatNum) {
 			.on('click', function(event) {
 				if($('.events-list', this).length == 0) return;
 				if($(this).children('[data-cal-date]').text() == self.activecell) return;
-				showEventsList(event, downbox, slider, self);
+				//showEventsList(event, downbox, slider, self);
 			})
 		;
 

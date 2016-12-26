@@ -4,6 +4,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -35,6 +36,7 @@ public class GenericDAOImpl<T, PK extends Serializable> implements GenericDAO<T,
         return em.createQuery(criteriaQuery).getResultList();
     }
 
+    @Transactional
     @Override
     public <T> T create(T created) {
         Session session = sessionFactory.getCurrentSession();
@@ -43,6 +45,7 @@ public class GenericDAOImpl<T, PK extends Serializable> implements GenericDAO<T,
         return created;
     }
 
+    @Transactional
     @Override
     public void delete(T deleted) {
         Session session = sessionFactory.getCurrentSession();
@@ -50,6 +53,7 @@ public class GenericDAOImpl<T, PK extends Serializable> implements GenericDAO<T,
         session.flush();
     }
 
+    @Transactional
     @Override
     public <T> T update(T updated) {
         Session session = sessionFactory.getCurrentSession();

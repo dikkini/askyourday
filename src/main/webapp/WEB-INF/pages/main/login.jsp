@@ -5,6 +5,8 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <fmt:requestEncoding value="utf-8" />
 
+<jsp:useBean id="SIGNUP_ERROR" scope="request" class="java.lang.String"/>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -34,6 +36,11 @@
                 <c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION}">
                     <div class="error-message">
                         Ошибка входа <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.localizedMessage}"/>.
+                    </div>
+                </c:if>
+                <c:if test="${not empty SIGNUP_ERROR}">
+                    <div class="error-message">
+                        Ошибка регистрации <c:out value="${SIGNUP_ERROR}"/>.
                     </div>
                 </c:if>
                 <form id="logsig-form" method="post" action="${pageContext.request.contextPath}/security_check">
@@ -102,10 +109,5 @@
         </div>
     </div>
 </section>
-
-<footer id="footer">
-    <jsp:include page="../partitial/footer.jsp"/>
-</footer>
-
 </body>
 </html>

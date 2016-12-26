@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/ext/bootstrap/css/bootstrap.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/ext/fonts/font-awesome/css/font-awesome.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/ext/fonts/fontello/css/fontello.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/ext/bootstrap-calendar/css/calendar.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/ext/fonts/fonts.css">
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/main/css/default.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/main/css/common.css">

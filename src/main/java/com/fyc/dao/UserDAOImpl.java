@@ -3,7 +3,6 @@ package com.fyc.dao;
 import com.fyc.dao.model.User;
 import com.fyc.dao.model.User_;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -12,8 +11,9 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 @Repository
-@Transactional
 public class UserDAOImpl extends GenericDAOImpl<User, String> implements UserDAO {
+
+
 
     @Override
     public User findByUsername(String username) throws NoResultException {

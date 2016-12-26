@@ -8,7 +8,7 @@ import java.util.Collection;
 
 
 @Entity
-@Table(name = "users", catalog = "fyc", schema = "public")
+@Table(name = "users", catalog = "fycapp", schema = "public")
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1872399128738912L;
@@ -61,7 +61,7 @@ public class User implements Serializable {
 
     public User(String username, String email, String password, String firstName, String lastName,
                 boolean enabled, boolean accountNonExpired, boolean accountNonLocked,
-                boolean credentialsNonExpired) {
+                boolean credentialsNonExpired, Collection<Role> roles) {
         this.username = username;
         this.email = email;
         this.password = password;
@@ -71,6 +71,7 @@ public class User implements Serializable {
         this.accountNonExpired = accountNonExpired;
         this.accountNonLocked = accountNonLocked;
         this.credentialsNonExpired = credentialsNonExpired;
+        this.roles = roles;
     }
 
     public String getUuid() {

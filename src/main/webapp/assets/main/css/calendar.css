@@ -1,0 +1,30 @@
+
+/* меняем вид цифр */
+span[data-cal-date] {
+    font-weight: bold;
+    font-family: "Brush Script MT", cursive;
+    font-size: 4.2em;
+    opacity: 1.5;
+}
+
+/* меняем вид today */
+.cal-month-box .cal-day-today span[data-cal-date] {
+
+}
+
+.cal-year-box .row-fluid:hover,
+.cal-row-fluid:hover {
+    background-color: #FCFBE3 !important;
+}
+
+[class*="cal-cell"]:hover {
+    background-color: #E8B742 !important;
+}
+
+div.container {
+    width: 55%;
+}
+
+#events-modal > div > div > div.modal-body {
+    height: 100%;
+}

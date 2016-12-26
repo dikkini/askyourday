@@ -53,7 +53,6 @@ a#signup_tab {
 
 .modal-content {
     width: 600px;
-    margin-top: 40%;
     /*background-color: #FCFBE3;*/
     border-color: white;
 }
@@ -69,19 +68,6 @@ a#signup_tab {
 .btn-warning {
     color: black;
     background-color: #FCFBE3;
-}
-
-/*
-	CALENDAR FIXES
-*/
-
-.cal-year-box .row-fluid:hover,
-.cal-row-fluid:hover {
-    background-color: #FCFBE3 !important;
-}
-
-[class*="cal-cell"]:hover {
-    background-color: #E8B742 !important;
 }
 
 /*

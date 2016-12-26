@@ -10,6 +10,9 @@
 <head>
     <jsp:include page="../partitial/head.jsp"/>
 
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/ext/bootstrap-calendar/css/calendar.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/main/css/calendar.css">
+
     <script src="${pageContext.request.contextPath}/assets/ext/bootstrap-calendar/js/language/ru-RU.js" type="text/javascript"></script>
     <script src="${pageContext.request.contextPath}/assets/ext/bootstrap-calendar/js/calendar.js" type="text/javascript"></script>
 
@@ -24,10 +27,10 @@
 </header>
 
 <section id="calendar-section">
-    <div style="padding-top: 50px" class="banner container">
+    <div class="container">
         <div class="row">
             <div class="col-lg-6">
-                <label id="calendar-title" style="font-size: 25px" class="pull-left"></label>
+                <label id="calendar-title" class="pull-left"></label>
             </div>
             <div class="col-lg-6">
                 <div class="btn-group">
@@ -43,21 +46,27 @@
     </div>
 </section>
 
-<section id="question-day">
-    <div class="row">
-        <div class="col-lg-6 col-lg-offset-3 text-center">
-            <div class="question">
-                <label class="question-header">Why did you do this?</label>
-                <textarea class="question-body"></textarea>
-            </div>
-        </div>
-    </div>
-    <p class="scrolldown"><a href="#footer" class="smoothscroll"><i class="icon-down-circle color-black"></i></a></p>
-</section>
-
 <footer id="footer">
     <jsp:include page="../partitial/footer.jsp"/>
 </footer>
 
 </body>
 </html>
+
+
+<div class="modal fade" id="events-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3>Event</h3>
+            </div>
+            <div class="modal-body">
+                <textarea class="question-body"></textarea>
+            </div>
+            <div class="modal-footer">
+                <a href="#" data-dismiss="modal" class="btn">Close</a>
+            </div>
+        </div>
+    </div>
+</div>

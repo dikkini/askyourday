@@ -1,12 +1,15 @@
 package com.fyc.dao.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.Calendar;
 
 @Entity
-@Table(name = "verification_token", catalog = "fyc", schema = "public")
-public class VerificationToken {
+@Table(name = "verification_token", catalog = "fycapp", schema = "public")
+public class VerificationToken implements Serializable {
+
+    private static final long serialVersionUID = 3502392118533912L;
 
     private static final int EXPIRATION = 60 * 24;
 

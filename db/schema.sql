@@ -93,8 +93,7 @@ CREATE TABLE user_attempts (
 
 CREATE TABLE public.user_roles
 (
-    uuid      VARCHAR(36) PRIMARY KEY
-  , user_uuid VARCHAR(36) REFERENCES public.users(uuid) NOT NULL
+    user_uuid VARCHAR(36) REFERENCES public.users(uuid) NOT NULL
   , role_id   INTEGER     REFERENCES public.roles(id)   NOT NULL
 );
 

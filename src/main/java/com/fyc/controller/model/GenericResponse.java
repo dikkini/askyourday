@@ -15,6 +15,11 @@ public class GenericResponse<T> implements Serializable {
         this.success = success;
     }
 
+    private GenericResponse(boolean success, String message) {
+        this.success = success;
+        this.message = message;
+    }
+
     private GenericResponse(boolean success, T data) {
         this.success = success;
         this.data = data;
@@ -35,6 +40,10 @@ public class GenericResponse<T> implements Serializable {
 
     public static <T> GenericResponse<T> createResponse(boolean success) {
         return new GenericResponse<>(success);
+    }
+
+    public static <T> GenericResponse<T> createResponse(boolean success, String messsage) {
+        return new GenericResponse<T>(success, messsage);
     }
 
     public static <T> GenericResponse<T> createResponse(boolean success, T data) {
