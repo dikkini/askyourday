@@ -72,7 +72,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/").permitAll()
                 .antMatchers("/admin/**").hasRole("admin")
                 .antMatchers("/assets/**").permitAll()
-                .antMatchers("/login/**").anonymous()
+                .antMatchers("/login/**", "/signup/**").anonymous()
                 .antMatchers("/**").access("isRememberMe() or isFullyAuthenticated()")
                 .anyRequest().authenticated();
         http.csrf()

@@ -1,13 +1,15 @@
 package com.fyc.controller;
 
-import com.fyc.controller.model.GenericResponse;
 import com.fyc.controller.model.UserDTO;
 import com.fyc.dao.model.Privilege;
 import com.fyc.dao.model.Role;
 import com.fyc.dao.model.User;
+import com.fyc.exception.EmailExistException;
+import com.fyc.exception.UsernameExistException;
 import com.fyc.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -16,9 +18,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
@@ -26,28 +28,55 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Controller
-@RequestMapping("/login")
-public class LoginController {
+@RequestMapping("/")
+public class LoginSignupController {
 
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private ApplicationContext context;
+
     @GetMapping
+    @RequestMapping("/login")
     public ModelAndView loginPage() {
         return new ModelAndView("main/login");
     }
 
+    @GetMapping
+    @RequestMapping("/signup")
+    public ModelAndView signupPage() {
+        ModelAndView mav = new ModelAndView("main/signup");
+        mav.addObject("registerUser", new UserDTO());
+        return mav;
+    }
+
     @PostMapping(value = "/signup")
-    public ModelAndView signupAction(@Valid UserDTO userDTO, BindingResult result) {
+    public ModelAndView signupAction(@Valid @ModelAttribute("registerUser") UserDTO userDTO, BindingResult result) {
         int errorCount = result.getErrorCount();
 
         User user;
         if (errorCount == 0) {
-            user = userService.create(userDTO);
+            try {
+                user = userService.registerUser(userDTO);
+            } catch (UsernameExistException e) {
+                ModelAndView mav = new ModelAndView();
+                mav.setViewName("main/signup");
+                mav.addObject("registerUser", userDTO);
+                mav.addObject("SIGNUP_ERROR", context.getMessage("UsernameExistException", null, LocaleContextHolder.getLocale()));
+                return mav;
+            } catch (EmailExistException e) {
+                ModelAndView mav = new ModelAndView();
+                mav.setViewName("main/signup");
+                mav.addObject("registerUser", userDTO);
+                mav.addObject("SIGNUP_ERROR", context.getMessage("EmailExistException", null, LocaleContextHolder.getLocale()));
+                return mav;
+            }
         } else {
             ModelAndView mav = new ModelAndView();
-            mav.setViewName("main/login");
+            mav.setViewName("main/signup");
             mav.addObject("SIGNUP_ERROR", "ERROR");
+            mav.addObject("registerUser", userDTO);
             return mav;
         }
 
@@ -64,17 +93,5 @@ public class LoginController {
         SecurityContextHolder.getContext().setAuthentication(auth);
 
         return new ModelAndView("redirect:/calendar");
-    }
-
-    @PostMapping(value = "/isUsernameBusy")
-    public ResponseEntity isUsernameBusy(@RequestParam(value = "username") String username) {
-        boolean usernameBusy = userService.isUsernameBusy(username);
-        return ResponseEntity.ok(GenericResponse.createResponse(usernameBusy));
-    }
-
-    @PostMapping(value = "/isEmailBusy")
-    public ResponseEntity isEmailBusy(@RequestParam(value = "email") String email) {
-        boolean emailBusy = userService.isEmailBusy(email);
-        return ResponseEntity.ok(GenericResponse.createResponse(emailBusy));
     }
 }

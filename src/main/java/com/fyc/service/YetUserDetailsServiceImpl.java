@@ -32,13 +32,13 @@ public class YetUserDetailsServiceImpl implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
-        boolean blocked = loginAttemptService.isBlocked(username);
+    public UserDetails loadUserByUsername(final String email) throws UsernameNotFoundException {
+        boolean blocked = loginAttemptService.isBlocked(email);
         if (blocked) {
             throw new UserBlockedException("user_blocked_message", 1000);
         }
 
-        final User user = userDAO.findByUsername(username);
+        final User user = userDAO.findByEmail(email);
 
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
         for (Role role : user.getRoles()){

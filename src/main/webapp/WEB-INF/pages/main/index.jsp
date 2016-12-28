@@ -1,47 +1,42 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+
+<%@ taglib prefix="c"      uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt"    uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn"     uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="sec"    uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+
 <fmt:requestEncoding value="utf-8" />
 
 <!DOCTYPE html>
 <html>
 <head>
     <jsp:include page="../partitial/head.jsp"/>
-    <title>5 years calendar</title>
+
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/main/css/index.css">
+    <title><fmt:message key="label.title"/></title>
 </head>
 <body>
-
-<header id="header">
-    <jsp:include page="../partitial/header.jsp"/>
-</header>
-
-<section id="main">
-    <div class="row text-center">
-        <div class="banner-text">
-            <h1 class="responsive-headline">Five Years Calendar</h1>
-            <div>
-                <label style="padding-top: 20px;"> расскажите о нас в социальных сетях</label>
+<div class="container">
+    <div class="main">
+        <jsp:include page="../partitial/navigation.jsp"/>
+        <div class="body">
+            <div class="row text-center">
+                <div class="row login-module">
+                    <div class="col-xs-5"></div>
+                    <sec:authorize access="isAnonymous()">
+                        <div class="col-xs-7">
+                            <jsp:include page="../partitial/login_form.jsp"/>
+                        </div>
+                    </sec:authorize>
+                    <sec:authorize access="isAuthenticated()">
+                        wow wow
+                    </sec:authorize>
+                </div>
             </div>
-            <ul class="social">
-                <li><a target="_blank" href="https://www.facebook.com/?q=#/dikkini"><i class="fa fa-facebook"></i></a></li>
-                <li><a target="_blank" href="https://twitter.com/dikkini"><i class="fa fa-twitter"></i></a></li>
-                <li><a target="_blank" href="http://vk.com/dikkini"><i class="fa fa-vk"></i></a></li>
-            </ul>
         </div>
+        <jsp:include page="../partitial/footer.jsp"/>
     </div>
-    <p class="scrolldown"><a href="#about" class="smoothscroll"><i class="icon-down-circle color-black"></i></a></p>
-</section>
-
-<section id="about">
-    <div class="row add-bottom">
-        <div class="col-xs-12">
-            <h1>This is 5 year question book. Bla bla bla</h1>
-            <p class="lead add-bottom">Bla bla bla</p>
-            <hr>
-        </div>
-    </div>
-</section>
+</div>
 </body>
 </html>

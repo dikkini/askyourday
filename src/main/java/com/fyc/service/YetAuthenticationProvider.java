@@ -25,11 +25,11 @@ public class YetAuthenticationProvider extends DaoAuthenticationProvider {
     public Authentication authenticate(Authentication auth) throws AuthenticationException {
         User user;
         try {
-            user = userDAO.findByUsername(auth.getName());
+            user = userDAO.findByEmail(auth.getName());
             Authentication result = super.authenticate(auth);
             return new UsernamePasswordAuthenticationToken(user, result.getCredentials(), result.getAuthorities());
         } catch (NoResultException e) {
-            throw new BadCredentialsException("not_exist");
+            throw new BadCredentialsException("bad_credentials");
         } catch (BadCredentialsException e) {
             loginAttemptService.loginFailed(auth.getName());
             throw new BadCredentialsException("bad_credentials");

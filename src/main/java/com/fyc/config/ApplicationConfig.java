@@ -1,8 +1,8 @@
 package com.fyc.config;
 
+import com.fyc.handler.HibernateAwareObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.fyc.handler.HibernateAwareObjectMapper;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -20,6 +20,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.orm.hibernate5.support.OpenSessionInViewInterceptor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.StandardPasswordEncoder;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.*;
@@ -94,7 +95,7 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter {
     @Bean
     public MessageSource messageSource() {
         ReloadableResourceBundleMessageSource ret = new ReloadableResourceBundleMessageSource();
-        ret.setBasenames("/WEB-INF/labels", "/WEB-INF/messages", "/WEB-INF/exceptions");
+        ret.setBasenames("/WEB-INF/labels", "/WEB-INF/classes/ValidationMessages", "/WEB-INF/exceptions");
         ret.setDefaultEncoding(UTF8.name());
         return ret;
     }
@@ -131,6 +132,13 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter {
         converters.add(stringConverter);
         converters.add(jackson2HttpMessageConverter());
         super.configureMessageConverters(converters);
+    }
+
+    @Bean
+    public LocalValidatorFactoryBean getValidator() {
+        LocalValidatorFactoryBean lvfb = new LocalValidatorFactoryBean();
+        lvfb.setValidationMessageSource(messageSource());
+        return lvfb;
     }
 
     @Bean

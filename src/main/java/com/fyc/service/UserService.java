@@ -3,6 +3,8 @@ package com.fyc.service;
 
 import com.fyc.controller.model.UserDTO;
 import com.fyc.dao.model.User;
+import com.fyc.exception.EmailExistException;
+import com.fyc.exception.UsernameExistException;
 
 public interface UserService {
 
@@ -11,7 +13,7 @@ public interface UserService {
      * @param userDTO
      * @return
      */
-    User create(final UserDTO userDTO);
+    User registerUser(final UserDTO userDTO) throws UsernameExistException, EmailExistException;
 
     /**
      *

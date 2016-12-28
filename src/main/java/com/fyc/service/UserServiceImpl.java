@@ -6,7 +6,11 @@ import com.fyc.dao.RoleDAO;
 import com.fyc.dao.UserDAO;
 import com.fyc.dao.model.Role;
 import com.fyc.dao.model.User;
+import com.fyc.exception.EmailExistException;
+import com.fyc.exception.UsernameExistException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +33,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private ApplicationContext context;
 
     @Override
     public User findByUsername(String username) {
@@ -66,10 +73,20 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public User create(UserDTO userDTO) {
+    public User registerUser(UserDTO userDTO) throws UsernameExistException, EmailExistException {
 
         String username = userDTO.getUsername();
+        boolean usernameBusy = isUsernameBusy(username);
+        if (usernameBusy) {
+            throw new UsernameExistException(context.getMessage("UsernameExistException", null, LocaleContextHolder.getLocale()));
+        }
+
         String email = userDTO.getEmail();
+        boolean emailBusy = isEmailBusy(email);
+        if (emailBusy) {
+            throw new EmailExistException(context.getMessage("EmailExistException", null, LocaleContextHolder.getLocale()));
+        }
+
         String password = passwordEncoder.encode(userDTO.getPassword());
 
         Collection<Role> roles = new ArrayList<>();
