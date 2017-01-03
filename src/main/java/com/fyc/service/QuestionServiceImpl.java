@@ -1,39 +1,30 @@
 package com.fyc.service;
 
-import com.fyc.dao.GenericDAO;
-import com.fyc.dao.QuestionDAO;
-import com.fyc.dao.model.Question;
+import com.fyc.dao.QuestionTranslationDAO;
+import com.fyc.dao.model.QuestionTranslation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.NoResultException;
 import java.util.Collection;
 
 @Service
 public class QuestionServiceImpl implements QuestionService {
 
     @Autowired
-    private QuestionDAO questionDAO;
-
-    @Autowired
-    @Qualifier(value = "genericDAOImpl")
-    private GenericDAO<Question, Long> genericDAO;
+    private QuestionTranslationDAO questionTranslationDAO;
 
     @Override
-    public Question findByDayMonthYear(String day, String month, String year) {
-        Question byDayMonthYear;
-        try {
-            byDayMonthYear = questionDAO.findByDayMonthYear(day, month, year);
-        } catch (NoResultException e) {
-            byDayMonthYear = null;
-        }
+    public QuestionTranslation findByDayMonthYear(String day, String month, String year) {
+        String language = LocaleContextHolder.getLocale().getLanguage();
+        QuestionTranslation byDayMonthYear = questionTranslationDAO.findByDayMonthYear(day, month, year, language);
         return byDayMonthYear;
     }
 
     @Override
-    public Collection<Question> findByMonthYear(String month, String year) {
-        Collection<Question> byMonthYear = questionDAO.findByMonthYear(month, year);
+    public Collection<QuestionTranslation> findByMonthYear(String month, String year) {
+        String language = LocaleContextHolder.getLocale().getLanguage();
+        Collection<QuestionTranslation> byMonthYear = questionTranslationDAO.findByMonthYear(month, year, language);
         return byMonthYear;
     }
 }

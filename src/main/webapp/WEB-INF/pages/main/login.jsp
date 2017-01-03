@@ -12,7 +12,6 @@
 <html>
 <head>
     <jsp:include page="../partitial/head.jsp"/>
-    <title><fmt:message key="label.title"/></title>
 </head>
 <body>
 <div class="container">

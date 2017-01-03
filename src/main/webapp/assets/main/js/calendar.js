@@ -1,8 +1,11 @@
 $(document).ready(function() {
 	$("textarea.question-body").elastic();
 	var $cal = $("#calendar");
+
+	var monthQuestions = {};
+
 	var calendar = $cal.calendar({
-		language: 'ru-RU',
+		language: language,
 		tmpl_path: "/assets/ext/bootstrap-calendar/tmpls/",
 		tmpl_cache: false,
 		views: {
@@ -27,9 +30,8 @@ $(document).ready(function() {
 			return e.title
 		},
 		events_source_custom: true,
-		events_source_url: '/calendar/getUserAnswersByMonthYear',
+		events_source_url: '/calendar/getMonthUserAnswers',
 		events_source_params: {
-			userUuid: userUuid,
 			month: getTodayMonth(),
 			year: new Date().getFullYear()
 		},
@@ -37,10 +39,18 @@ $(document).ready(function() {
 			$('#calendar-title').text(this.getTitle());
 			$('.btn-group button').removeClass('active');
 			$('button[data-calendar-view="' + view + '"]').addClass('active');
+
+			var year = this.options.position.start.getFullYear();
+			var month = this.options.position.start.getMonth();
+			if (month == 0 && year == 2017) {
+				$('.btn-group button[data-calendar-nav="prev"]').prop('disabled', true);
+			} else {
+				$('.btn-group button[data-calendar-nav="prev"]').prop('disabled', false);
+			}
 		}
 	});
 
-	$('.btn-group button[data-calendar-nav]').each(function() {
+	$('.btn-group button[data-calendar-nav]').each(function(e) {
 		var $this = $(this);
 		$this.click(function() {
 			calendar.navigate($this.data('calendar-nav'));
@@ -56,12 +66,9 @@ $(document).ready(function() {
 
 	$cal.on("click", ".cal-month-day", function() {
 		var date = $(this).find('span[data-cal-view="day"]').data("cal-date");
+		var answer = $(this).find('div.events-list').find('a.event').data("event-text");
 		var $events = $(this).find("div.events-list");
-		// если в календаре уже есть событие - то открываем модальное окно с вопросом и ответом
-		if ($events.length > 0) {
-			$events.find("a").click();
-			return;
-		}
+
 		var dateSplitted = date.split("-");
 
 		var data = {
@@ -72,18 +79,18 @@ $(document).ready(function() {
 
 		$.ajax({
 			type: "GET",
-			url: "/calendar/getQuestionByDayMonthYear",
+			url: "/calendar/getDayQuestion",
 			cache: false,
 			data: data,
 			success: function (response) {
 				var $modal = $("#events-modal");
 				$modal.find(".modal-body").find(".question-body").html("");
-				$modal.find(".modal-header").find("h3").text(response.data.question);
+				$modal.find(".modal-body").find(".question-body").html(answer);
+				$modal.find(".modal-header").find("h3").text(response.data.questionText);
 				$modal.modal('show');
 			},
 			error: function (response) {
 				console.log("error");
-				console.log(response);
 			}
 		});
 	})

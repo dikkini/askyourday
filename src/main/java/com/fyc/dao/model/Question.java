@@ -1,7 +1,10 @@
 package com.fyc.dao.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "question", catalog = "fycapp", schema = "public")
@@ -14,9 +17,6 @@ public class Question implements Serializable {
     @SequenceGenerator(name = "question_seq_gen", sequenceName = "question_id_seq")
     private Long id;
 
-    @Column(name = "question")
-    private String question;
-
     @Column(name = "day")
     private String day;
 
@@ -26,20 +26,16 @@ public class Question implements Serializable {
     @Column(name = "year")
     private String year;
 
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "question", cascade = CascadeType.ALL)
+    private List<QuestionTranslation> questionTranslation;
+
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getQuestion() {
-        return question;
-    }
-
-    public void setQuestion(String question) {
-        this.question = question;
     }
 
     public String getDay() {
@@ -66,6 +62,14 @@ public class Question implements Serializable {
         this.year = year;
     }
 
+    public List<QuestionTranslation> getQuestionTranslation() {
+        return questionTranslation;
+    }
+
+    public void setQuestionTranslation(List<QuestionTranslation> questionTranslation) {
+        this.questionTranslation = questionTranslation;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -74,7 +78,6 @@ public class Question implements Serializable {
         Question question1 = (Question) o;
 
         if (!id.equals(question1.id)) return false;
-        if (!question.equals(question1.question)) return false;
         if (!day.equals(question1.day)) return false;
         if (!month.equals(question1.month)) return false;
         return year.equals(question1.year);
@@ -84,7 +87,6 @@ public class Question implements Serializable {
     @Override
     public int hashCode() {
         int result = id.hashCode();
-        result = 31 * result + question.hashCode();
         result = 31 * result + day.hashCode();
         result = 31 * result + month.hashCode();
         result = 31 * result + year.hashCode();
@@ -95,7 +97,6 @@ public class Question implements Serializable {
     public String toString() {
         return "Question{" +
                 "id=" + id +
-                ", question='" + question + '\'' +
                 ", day='" + day + '\'' +
                 ", month='" + month + '\'' +
                 ", year='" + year + '\'' +

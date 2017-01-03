@@ -5,7 +5,7 @@ import com.fyc.dao.model.UserAnswer;
 
 import java.util.Collection;
 
-public interface UserAnswerDAO {
+public interface UserAnswerDAO extends GenericDAO<UserAnswer, String> {
 
     /**
      *

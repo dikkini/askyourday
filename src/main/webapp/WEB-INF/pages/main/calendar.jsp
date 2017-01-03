@@ -16,13 +16,12 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/ext/bootstrap-calendar/css/calendar.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/main/css/calendar.css">
 
-    <script src="${pageContext.request.contextPath}/assets/ext/bootstrap-calendar/js/language/ru-RU.js" type="text/javascript"></script>
+    <script src="${pageContext.request.contextPath}/assets/ext/bootstrap-calendar/js/language/ru.js" type="text/javascript"></script>
     <script src="${pageContext.request.contextPath}/assets/ext/bootstrap-calendar/js/calendar.js" type="text/javascript"></script>
     <script src="${pageContext.request.contextPath}/assets/ext/jquery/jquery.elastic.source.js" type="text/javascript" charset="utf-8"></script>
 
     <script src="${pageContext.request.contextPath}/assets/main/js/calendar.js" type="text/javascript"></script>
 
-    <title>5 years calendar</title>
 </head>
 <body>
 <div class="container">

@@ -8,8 +8,12 @@ import org.springframework.web.context.support.AnnotationConfigWebApplicationCon
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.DispatcherServlet;
+import org.springframework.web.util.Log4jConfigListener;
 
-import javax.servlet.*;
+import javax.servlet.FilterRegistration;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRegistration;
 
 public class Initializer implements WebApplicationInitializer {
 
@@ -25,6 +29,12 @@ public class Initializer implements WebApplicationInitializer {
         servletContext.setInitParameter("defaultHtmlEscape", "true");
         servletContext.addListener(new HttpSessionEventPublisher());
         servletContext.addListener(new RequestContextListener());
+
+        servletContext.setInitParameter( "log4jConfigLocation" , "WEB-INF/classes/log4j.properties" );
+        //servletContext.setInitParameter( "log4jRefreshInterval" , "10000" );
+        //servletContext.setInitParameter( "log4jExposeWebAppRoot", "false" );
+        Log4jConfigListener log4jListener = new Log4jConfigListener();
+        servletContext.addListener(log4jListener);
 
         FilterRegistration.Dynamic fr = servletContext.addFilter("encodingFilter",
                 new CharacterEncodingFilter());

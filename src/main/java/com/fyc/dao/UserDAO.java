@@ -4,7 +4,7 @@ import com.fyc.dao.model.User;
 
 import javax.persistence.NoResultException;
 
-public interface UserDAO {
+public interface UserDAO extends GenericDAO<User, String> {
 
     /**
      * Поиск пользователя по username

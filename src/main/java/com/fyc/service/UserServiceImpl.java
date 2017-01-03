@@ -1,7 +1,6 @@
 package com.fyc.service;
 
 import com.fyc.controller.model.UserDTO;
-import com.fyc.dao.GenericDAO;
 import com.fyc.dao.RoleDAO;
 import com.fyc.dao.UserDAO;
 import com.fyc.dao.model.Role;
@@ -24,9 +23,6 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserDAO userDAO;
-
-    @Autowired
-    private GenericDAO<User, String> genericUserDAO;
 
     @Autowired
     private RoleDAO roleDAO;
@@ -101,11 +97,11 @@ public class UserServiceImpl implements UserService {
         User user = new User(username, email, password, null, null, enabled, accountNonExpired,
                 accountNonLocked, credentialsNonExpired, roles);
 
-        return genericUserDAO.create(user);
+        return userDAO.create(user);
     }
 
     @Override
     public User update(User user) {
-        return genericUserDAO.update(user);
+        return userDAO.update(user);
     }
 }

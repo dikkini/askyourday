@@ -14,7 +14,6 @@
     <jsp:include page="../partitial/head.jsp"/>
 
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/main/css/index.css">
-    <title><fmt:message key="label.title"/></title>
 </head>
 <body>
 <div class="container">

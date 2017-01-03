@@ -1,7 +1,7 @@
 package com.fyc.controller;
 
 import com.fyc.controller.model.GenericResponse;
-import com.fyc.dao.model.Question;
+import com.fyc.dao.model.QuestionTranslation;
 import com.fyc.dao.model.User;
 import com.fyc.dao.model.UserAnswer;
 import com.fyc.service.QuestionService;
@@ -33,34 +33,20 @@ public class CalendarController {
         return mav;
     }
 
-    @GetMapping(value = "/getQuestionByDayMonthYear")
-    public ResponseEntity getQuestionByDayMonthYear(@RequestParam(value = "day") String day,
-                                                    @RequestParam(value = "month") String month,
-                                                    @RequestParam(value = "year") String year) {
-        Question byDayMonthYear = questionService.findByDayMonthYear(day, month, year);
+    @GetMapping(value = "/getDayQuestion")
+    public ResponseEntity getDayQuestion(@RequestParam(value = "day") String day,
+                                         @RequestParam(value = "month") String month,
+                                         @RequestParam(value = "year") String year) {
+        QuestionTranslation byDayMonthYear = questionService.findByDayMonthYear(day, month, year);
         return ResponseEntity.ok(GenericResponse.createResponse(true, byDayMonthYear));
     }
 
-    @GetMapping(value = "/getUserAnswerByDayMonthYear")
-    public ResponseEntity getUserAnswerByDayMonthYear(@RequestParam(value = "day") String day,
-                                                      @RequestParam(value = "month") String month,
-                                                      @RequestParam(value = "year") String year, Authentication authentication) {
-        UserAnswer byDayMonthYear = userAnswerService.findByDayMonthYear(day, month, year, (User) authentication.getPrincipal());
-        return ResponseEntity.ok(GenericResponse.createResponse(true, byDayMonthYear));
-    }
-
-    @GetMapping(value = "/getMyUserAnswersByMonthYear")
-    public ResponseEntity getMyUserAnswersByMonthYear(@RequestParam(value = "month") String month,
-                                                    @RequestParam(value = "year") String year, Authentication authentication) {
-        Collection<UserAnswer> byDayMonthYear = userAnswerService.findByMonthYear(month, year, (User) authentication.getPrincipal());
-        return ResponseEntity.ok(GenericResponse.createResponse(true, byDayMonthYear));
-    }
-
-    @GetMapping(value = "/getUserAnswersByMonthYear")
-    public ResponseEntity getUserAnswersByMonthYear(@RequestParam(value = "month") String month,
-                                                    @RequestParam(value = "year") String year,
-                                                    @RequestParam(value = "userUuid") String userUuid) {
-        Collection<UserAnswer> byDayMonthYear = userAnswerService.findByMonthYear(month, year, userUuid);
+    @GetMapping(value = "/getMonthUserAnswers")
+    public ResponseEntity getMonthUserAnswers(@RequestParam(value = "month") String month,
+                                              @RequestParam(value = "year") String year,
+                                              Authentication authentication) {
+        Collection<UserAnswer> byDayMonthYear = userAnswerService.findByMonthYear(month, year,
+                (User) authentication.getPrincipal());
         return ResponseEntity.ok(GenericResponse.createResponse(true, byDayMonthYear));
     }
 }

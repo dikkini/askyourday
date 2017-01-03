@@ -25,29 +25,10 @@ public interface UserAnswerService {
 
     /**
      *
-     * @param day
-     * @param month
-     * @param year
-     * @param user
-     * @return
-     */
-    UserAnswer findByDayMonthYear(String day, String month, String year, User user);
-
-    /**
-     *
      * @param month
      * @param year
      * @param user
      * @return
      */
     Collection<UserAnswer> findByMonthYear(String month, String year, User user);
-
-    /**
-     *
-     * @param month
-     * @param year
-     * @param userUuid
-     * @return
-     */
-    Collection<UserAnswer> findByMonthYear(String month, String year, String userUuid);
 }

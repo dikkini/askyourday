@@ -1,16 +1,12 @@
 package com.fyc.dao;
 
-import com.fyc.dao.model.Question;
-import com.fyc.dao.model.Question_;
+import com.fyc.dao.model.*;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -21,7 +17,7 @@ public class QuestionDAOImpl extends GenericDAOImpl<Question, Long> implements Q
 
 
     @Override
-    public Collection<Question> findByMonthYear(String month, String year) {
+    public Collection<Question> findByMonthYear(String month, String year, String locale) {
         EntityManager em = sessionFactory.createEntityManager();
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<Question> criteriaQuery = builder.createQuery(Question.class);
@@ -29,9 +25,11 @@ public class QuestionDAOImpl extends GenericDAOImpl<Question, Long> implements Q
         List<Predicate> predicates = new ArrayList<>();
 
         Root<Question> questionRoot = criteriaQuery.from(Question.class);
+        ListJoin<Question, QuestionTranslation> questionTranslationJoinRoot = questionRoot.join(Question_.questionTranslation, JoinType.LEFT);
 
         predicates.add(builder.equal(questionRoot.get(Question_.month), month));
         predicates.add(builder.equal(questionRoot.get(Question_.year), year));
+        predicates.add(builder.equal(questionTranslationJoinRoot.get(QuestionTranslation_.language), locale));
 
         criteriaQuery.select(questionRoot).where(predicates.toArray(new Predicate[]{}));
 
@@ -43,7 +41,7 @@ public class QuestionDAOImpl extends GenericDAOImpl<Question, Long> implements Q
     }
 
     @Override
-    public Question findByDayMonthYear(String day, String month, String year) {
+    public Question findByDayMonthYear(String day, String month, String year, String locale) {
         EntityManager em = sessionFactory.createEntityManager();
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<Question> criteriaQuery = builder.createQuery(Question.class);
@@ -51,10 +49,12 @@ public class QuestionDAOImpl extends GenericDAOImpl<Question, Long> implements Q
         List<Predicate> predicates = new ArrayList<>();
 
         Root<Question> questionRoot = criteriaQuery.from(Question.class);
+        ListJoin<Question, QuestionTranslation> questionTranslationJoinRoot = questionRoot.join(Question_.questionTranslation, JoinType.LEFT);
 
         predicates.add(builder.equal(questionRoot.get(Question_.day), day));
         predicates.add(builder.equal(questionRoot.get(Question_.month), month));
         predicates.add(builder.equal(questionRoot.get(Question_.year), year));
+        predicates.add(builder.equal(questionTranslationJoinRoot.get(QuestionTranslation_.language), locale));
 
         criteriaQuery.select(questionRoot).where(predicates.toArray(new Predicate[]{}));
 

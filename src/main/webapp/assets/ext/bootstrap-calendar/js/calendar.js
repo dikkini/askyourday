@@ -886,7 +886,7 @@ if(!String.prototype.formatNum) {
 							var question = userAnswer.question;
 							var event = {
 								"id": parseInt(i) + 100,
-								"title": question.question,
+								"title": "event",
 								"text": userAnswer.answer,
 								"class": "event-important",
 								"start": new Date(question.year + "-" + question.month + "-" + question.day).getTime(),
@@ -1155,7 +1155,7 @@ if(!String.prototype.formatNum) {
 			.on('click', function(event) {
 				if($('.events-list', this).length == 0) return;
 				if($(this).children('[data-cal-date]').text() == self.activecell) return;
-				//showEventsList(event, downbox, slider, self);
+				showEventsList(event, downbox, slider, self);
 			})
 		;
 

@@ -14,20 +14,21 @@ SET default_with_oids = FALSE;
 
 /* START DROP */
 
-DROP TABLE IF EXISTS public.file_type          CASCADE;
-DROP TABLE IF EXISTS public.roles              CASCADE;
-DROP TABLE IF EXISTS public.users              CASCADE;
-DROP TABLE IF EXISTS public.question           CASCADE;
-DROP TABLE IF EXISTS public.user_answer        CASCADE;
-DROP TABLE IF EXISTS public.user_files         CASCADE;
-DROP TABLE IF EXISTS public.file               CASCADE;
-DROP TABLE IF EXISTS public.user_roles         CASCADE;
-DROP TABLE IF EXISTS public.user_attempts      CASCADE;
-DROP TABLE IF EXISTS public.privilege          CASCADE;
-DROP TABLE IF EXISTS public.roles_privileges   CASCADE;
-DROP TABLE IF EXISTS public.persistent_login   CASCADE;
-DROP TABLE IF EXISTS public.password_reset     CASCADE;
-DROP TABLE IF EXISTS public.verification_token CASCADE;
+DROP TABLE IF EXISTS public.file_type             CASCADE;
+DROP TABLE IF EXISTS public.roles                 CASCADE;
+DROP TABLE IF EXISTS public.users                 CASCADE;
+DROP TABLE IF EXISTS public.question              CASCADE;
+DROP TABLE IF EXISTS public.question_translation  CASCADE;
+DROP TABLE IF EXISTS public.user_answer           CASCADE;
+DROP TABLE IF EXISTS public.user_files            CASCADE;
+DROP TABLE IF EXISTS public.file                  CASCADE;
+DROP TABLE IF EXISTS public.user_roles            CASCADE;
+DROP TABLE IF EXISTS public.user_attempts         CASCADE;
+DROP TABLE IF EXISTS public.privilege             CASCADE;
+DROP TABLE IF EXISTS public.roles_privileges      CASCADE;
+DROP TABLE IF EXISTS public.persistent_login      CASCADE;
+DROP TABLE IF EXISTS public.password_reset        CASCADE;
+DROP TABLE IF EXISTS public.verification_token    CASCADE;
 
 /* END DROP */
 
@@ -64,10 +65,17 @@ CREATE TABLE public.users
 CREATE TABLE public.question
 (
     id       SERIAL PRIMARY KEY
-  , question TEXT               NOT NULL
   , day      VARCHAR(2)        NOT NULL
   , month    VARCHAR(2)        NOT NULL
   , year     VARCHAR(4)         NOT NULL
+);
+
+CREATE TABLE public.question_translation
+(
+    id SERIAL PRIMARY KEY
+  , question_id   INT REFERENCES public.question(id) NOT NULL
+  , question_text TEXT                               NOT NULL
+  , language      VARCHAR(2)                         NOT NULL
 );
 
 CREATE TABLE public.user_answer

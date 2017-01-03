@@ -105,7 +105,7 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter {
         Locale ruLocale = new Locale.Builder().setLanguage("ru").build();
         CookieLocaleResolver cookieLocaleResolver = new CookieLocaleResolver();
         cookieLocaleResolver.setDefaultLocale(ruLocale);
-        cookieLocaleResolver.setCookieName("localceCookie");
+        cookieLocaleResolver.setCookieName("localeCookie");
         cookieLocaleResolver.setCookieMaxAge(3600);
 
         return cookieLocaleResolver;

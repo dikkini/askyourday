@@ -19,7 +19,6 @@
     <script src="${pageContext.request.contextPath}/assets/main/js/signup.js" type="text/javascript" charset="utf-8"></script>
 
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/main/css/signup.css">
-    <title><fmt:message key="label.title"/></title>
 </head>
 <body>
 <div class="container">

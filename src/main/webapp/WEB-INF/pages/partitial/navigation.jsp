@@ -14,6 +14,15 @@
 
 <script type="text/javascript">
     var userUuid = "${pageContext['request'].userPrincipal.principal.uuid}";
+    var language = "${cookie.localeCookie.value}";
+    language = "${cookie.localeCookie.value}";
+    var paramLocale = "${param.locale}";
+    if (paramLocale != "") {
+        language = paramLocale;
+    }
+    if (language == "") {
+        language = "ru";
+    }
 </script>
 
 <div class="header">

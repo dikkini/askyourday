@@ -1,7 +1,7 @@
 package com.fyc.service;
 
 
-import com.fyc.dao.model.Question;
+import com.fyc.dao.model.QuestionTranslation;
 
 import java.util.Collection;
 
@@ -14,7 +14,7 @@ public interface QuestionService {
      * @param year
      * @return
      */
-    Question findByDayMonthYear(String day, String month, String year);
+    QuestionTranslation findByDayMonthYear(String day, String month, String year);
 
     /**
      *
@@ -22,5 +22,5 @@ public interface QuestionService {
      * @param year
      * @return
      */
-    Collection<Question> findByMonthYear(String month, String year);
+    Collection<QuestionTranslation> findByMonthYear(String month, String year);
 }
