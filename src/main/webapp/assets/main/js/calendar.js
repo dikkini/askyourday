@@ -63,37 +63,6 @@ $(document).ready(function() {
 			calendar.view($this.data('calendar-view'));
 		});
 	});
-
-	$cal.on("click", ".cal-month-day", function() {
-		var date = $(this).find('span[data-cal-view="day"]').data("cal-date");
-		var answer = $(this).find('div.events-list').find('a.event').data("event-text");
-		var $events = $(this).find("div.events-list");
-
-		var dateSplitted = date.split("-");
-
-		var data = {
-			day: dateSplitted[2],
-			month: dateSplitted[1],
-			year: dateSplitted[0]
-		};
-
-		$.ajax({
-			type: "GET",
-			url: "/calendar/getDayQuestion",
-			cache: false,
-			data: data,
-			success: function (response) {
-				var $modal = $("#events-modal");
-				$modal.find(".modal-body").find(".question-body").html("");
-				$modal.find(".modal-body").find(".question-body").html(answer);
-				$modal.find(".modal-header").find("h3").text(response.data.questionText);
-				$modal.modal('show');
-			},
-			error: function (response) {
-				console.log("error");
-			}
-		});
-	})
 });
 
 function getTodayMonth() {

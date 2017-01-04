@@ -35,7 +35,7 @@
                 <div class="col-lg-6">
                     <div id="calendar_control-btn-group" class="btn-group">
                         <button data-calendar-nav="prev" class="btn btn-danger"><i class="glyphicon glyphicon-circle-arrow-left"></i></button>
-                        <button data-calendar-nav="today" class="btn btn-danger"><i class="glyphicon glyphicon-record"></i></button>
+                        <button data-calendar-nav="today" class="btn btn-danger"><i class="fa fa-location-arrow gi-5x"></i></button>
                         <button data-calendar-nav="next" class="btn btn-danger"><i class="glyphicon glyphicon-circle-arrow-right"></i></button>
                     </div>
                 </div>
@@ -49,20 +49,3 @@
 </div>
 </body>
 </html>
-
-<div class="modal fade" id="events-modal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3>Event</h3>
-            </div>
-            <div class="modal-body">
-                <textarea class="question-body"></textarea>
-            </div>
-            <div class="modal-footer">
-                <a href="#" data-dismiss="modal" class="btn">Close</a>
-            </div>
-        </div>
-    </div>
-</div>

@@ -1141,23 +1141,22 @@ if(!String.prototype.formatNum) {
 		}
 		var self = this;
 		var activecell = 0;
-		var downbox = $(document.createElement('div')).attr('id', 'cal-day-tick').html('<i class="icon-chevron-down glyphicon glyphicon-chevron-down"></i>');
+		var downbox = $(document.createElement('div')).attr('id', 'cal-day-tick').html('<i class="glyphicon-chevron-down glyphicon glyphicon-chevron-down"></i>');
 
 		$('.cal-month-day, .cal-year-box .span3')
 			.on('mouseenter', function() {
-				if($('.events-list', this).length == 0) return;
+				//if($('.events-list', this).length == 0) return;
 				if($(this).children('[data-cal-date]').text() == self.activecell) return;
-				//downbox.show().appendTo(this);
+				downbox.show().appendTo(this);
 			})
 			.on('mouseleave', function() {
 				downbox.hide();
 			})
 			.on('click', function(event) {
-				if($('.events-list', this).length == 0) return;
+				//if($('.events-list', this).length == 0) return;
 				if($(this).children('[data-cal-date]').text() == self.activecell) return;
 				showEventsList(event, downbox, slider, self);
-			})
-		;
+			});
 
 		var slider = $(document.createElement('div')).attr('id', 'cal-slide-box');
 		slider.hide().click(function(event) {
@@ -1194,36 +1193,56 @@ if(!String.prototype.formatNum) {
 		var row = cell.closest('.cal-before-eventlist');
 		var tick_position = cell.data('cal-row');
 
-		that.fadeOut('fast');
+		var date = cell.find('span[data-cal-view="day"]').data('cal-date')
+		var dateSplitted = date.split("-");
 
-		slider.slideUp('fast', function() {
-			var event_list = $('.events-list', cell);
-			slider.html(self.options.templates['events-list']({
-				cal:    self,
-				events: self.getEventsBetween(parseInt(event_list.data('cal-start')), parseInt(event_list.data('cal-end')))
-			}));
-			row.after(slider);
-			self.activecell = $('[data-cal-date]', cell).text();
-			$('#cal-slide-tick').addClass('tick' + tick_position).show();
-			slider.slideDown('fast', function() {
-				$('body').one('click', function() {
-					slider.slideUp('fast');
-					self.activecell = 0;
+		var data = {
+			day: dateSplitted[2],
+			month: dateSplitted[1],
+			year: dateSplitted[0]
+		};
+
+		$.ajax({
+			type: "GET",
+			url: "/calendar/getDayQuestion",
+			cache: false,
+			data: data,
+			async: false,
+			success: function (response) {
+				slider.slideUp('fast', function() {
+					var event_list = $('.events-list', cell);
+					slider.html(self.options.templates['events-list']({
+						cal:    self,
+						events: self.getEventsBetween(parseInt(event_list.data('cal-start')), parseInt(event_list.data('cal-end'))),
+						question: response.data.questionText
+					}));
+					row.after(slider);
+					self.activecell = $('[data-cal-date]', cell).text();
+					$('#cal-slide-tick').addClass('tick' + tick_position).show();
+					slider.slideDown('fast', function() {
+						$('body').one('click', function() {
+							slider.slideUp('fast');
+							self.activecell = 0;
+						});
+					});
 				});
-			});
-		});
 
-		$('a.event-item').mouseenter(function() {
-			$('a[data-event-id="' + $(this).data('event-id') + '"]').closest('.cal-cell1').addClass('day-highlight dh-' + $(this).data('event-class'));
-		});
-		$('a.event-item').mouseleave(function() {
-			$('div.cal-cell1').removeClass('day-highlight dh-' + $(this).data('event-class'));
-		});
+				$('a.event-item').mouseenter(function() {
+					$('a[data-event-id="' + $(this).data('event-id') + '"]').closest('.cal-cell1').addClass('day-highlight dh-' + $(this).data('event-class'));
+				});
+				$('a.event-item').mouseleave(function() {
+					$('div.cal-cell1').removeClass('day-highlight dh-' + $(this).data('event-class'));
+				});
 
-		// Wait 400ms before updating the modal (400ms is the time for the slider to fade out and slide up)
-		setTimeout(function() {
-			self._update_modal();
-		}, 400);
+				// Wait 400ms before updating the modal (400ms is the time for the slider to fade out and slide up)
+				setTimeout(function() {
+					self._update_modal();
+				}, 400);
+			},
+			error: function (response) {
+				console.log("error");
+			}
+		});
 	}
 
 	function getEasterDate(year, offsetDays) {
