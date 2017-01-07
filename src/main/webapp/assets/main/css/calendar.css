@@ -1,4 +1,11 @@
 
+/* save answer button */
+#save-btn {
+    color: white;
+    float: right;
+    font-weight: bold;
+}
+
 /* меняем вид цифр */
 span[data-cal-date] {
     font-weight: bold;
@@ -21,13 +28,12 @@ span[data-cal-date] {
 }
 /* меняем вид отображения списка событий */
 #cal-slide-content {
-    /*background-image: none !important;*/
-    /*background-color: black;*/
     padding: 10px !important;
+    background: #e66b6b none !important;
 }
 /* меняем вид отображения списка событий при наведении */
 #cal-slide-content:hover {
-    background-color: black !important;
+
 }
 /* текст внутри textarea в отображении списка событий */
 #cal-slide-content {

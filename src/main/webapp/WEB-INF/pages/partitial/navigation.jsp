@@ -27,8 +27,8 @@
 
 <div class="header">
     <div class="locales">
-        <a href="?locale=ru"><img width="30" src="http://img.freeflagicons.com/thumb/round_icon/russia/russia_640.png"></a>
-        <a href="?locale=en"><img width="30" src="http://img.freeflagicons.com/thumb/round_icon/united_kingdom/united_kingdom_640.png"></a>
+        <a href="?locale=ru"><img width="30" src="${pageContext.request.contextPath}/assets/main/images/ru_locale.png"></a>
+        <a href="?locale=en"><img width="30" src="${pageContext.request.contextPath}/assets/main/images/en_locale.png"></a>
     </div>
     <div class="row center">
         <div class="col-xs-2">

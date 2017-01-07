@@ -31,14 +31,14 @@ public class UserAnswerServiceImpl implements UserAnswerService {
     @Transactional
     public UserAnswer create(UserAnswerDTO userAnswerDTO) {
         User user = userAnswerDTO.getUser();
-        String answer = userAnswerDTO.getAnswer();
+        String answerText = userAnswerDTO.getAnswerText();
         Long questionId = userAnswerDTO.getQuestionId();
 
         Question questionTranslation = questionDAO.findOne(Question.class, questionId);
 
         UserAnswer userAnswer = new UserAnswer();
         userAnswer.setUser(user);
-        userAnswer.setAnswer(answer);
+        userAnswer.setAnswer(answerText);
         userAnswer.setQuestion(questionTranslation);
 
         return questionDAO.create(userAnswer);
@@ -46,7 +46,11 @@ public class UserAnswerServiceImpl implements UserAnswerService {
 
     @Override
     @Transactional
-    public UserAnswer update(UserAnswer userAnswer) {
+    public UserAnswer update(String userAnswerUuid, String answerText) {
+
+        UserAnswer userAnswer = userAnswerDAO.findOne(UserAnswer.class, userAnswerUuid);
+        userAnswer.setAnswer(answerText);
+
         return userAnswerDAO.update(userAnswer);
     }
 }

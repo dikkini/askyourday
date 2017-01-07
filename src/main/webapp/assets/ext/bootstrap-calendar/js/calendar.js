@@ -885,10 +885,11 @@ if(!String.prototype.formatNum) {
 							var userAnswer = data[i];
 							var question = userAnswer.question;
 							var event = {
-								"id": parseInt(i) + 100,
+								"id": userAnswer.uuid,
 								"title": "event",
 								"text": userAnswer.answer,
 								"class": "event-important",
+								"questionId": question.id,
 								"start": new Date(question.year + "-" + question.month + "-" + question.day).getTime(),
 								"end": new Date(question.year + "-" + question.month + "-" + question.day).getTime()
 							};
@@ -1214,7 +1215,8 @@ if(!String.prototype.formatNum) {
 					slider.html(self.options.templates['events-list']({
 						cal:    self,
 						events: self.getEventsBetween(parseInt(event_list.data('cal-start')), parseInt(event_list.data('cal-end'))),
-						question: response.data.questionText
+						question: response.data.questionText,
+						questionId: response.data.question.id
 					}));
 					row.after(slider);
 					self.activecell = $('[data-cal-date]', cell).text();
@@ -1226,6 +1228,9 @@ if(!String.prototype.formatNum) {
 						});
 					});
 				});
+
+				var pos = $('#cal-slide-box').offset();
+				$('body').animate({ scrollTop: pos.top });
 
 				$('a.event-item').mouseenter(function() {
 					$('a[data-event-id="' + $(this).data('event-id') + '"]').closest('.cal-cell1').addClass('day-highlight dh-' + $(this).data('event-class'));

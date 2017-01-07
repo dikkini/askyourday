@@ -18,10 +18,11 @@ public interface UserAnswerService {
 
     /**
      *
-     * @param userAnswer
+     * @param userAnswerUuid
+     * @param answerText
      * @return
      */
-    UserAnswer update(final UserAnswer userAnswer);
+    UserAnswer update(String userAnswerUuid, String answerText);
 
     /**
      *

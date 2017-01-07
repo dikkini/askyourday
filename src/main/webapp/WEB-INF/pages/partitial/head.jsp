@@ -16,14 +16,13 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/ext/fonts/font-awesome/css/font-awesome.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/ext/fonts/fontello/css/fontello.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/ext/fonts/fonts.css">
-<link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,900" rel="stylesheet">
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/main/css/common.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/main/css/default.css">
 
 
 <script src="${pageContext.request.contextPath}/assets/ext/jquery/jquery.min.js" type="text/javascript" charset="utf-8"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.16.0/jquery.validate.min.js" integrity="sha256-UOSXsAgYN43P/oVrmU+JlHtiDGYWN2iHnJuKY9WD+Jg=" crossorigin="anonymous"></script>
+<script src="${pageContext.request.contextPath}/assets/ext/jquery/jquery.validate.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="${pageContext.request.contextPath}/assets/ext/jquery/jquery-validate.bootstrap-tooltip.min.js" type="text/javascript" charset="utf-8"></script>
 
 <script src="${pageContext.request.contextPath}/assets/ext/bootstrap/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
@@ -41,6 +40,9 @@
     validationMessages['validate.email'] = "<spring:message code='validate.email' javaScriptEscape='true' />";
     validationMessages['validate.maxlength'] = "<spring:message code='validate.maxlength' javaScriptEscape='true' />";
     validationMessages['validate.minlength'] = "<spring:message code='validate.minlength' javaScriptEscape='true' />";
+
+    var underscoreLabels = new Array();
+    underscoreLabels['label.calendar.save'] = "<spring:message code='label.calendar.save' javaScriptEscape='true' />";
 </script>
 
 <title><fmt:message key="label.title"/></title>

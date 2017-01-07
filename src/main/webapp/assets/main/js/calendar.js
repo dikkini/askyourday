@@ -1,5 +1,4 @@
 $(document).ready(function() {
-	$("textarea.question-body").elastic();
 	var $cal = $("#calendar");
 
 	var monthQuestions = {};

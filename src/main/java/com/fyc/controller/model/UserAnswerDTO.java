@@ -6,11 +6,7 @@ public class UserAnswerDTO {
 
     private User user;
     private Long questionId;
-    private String question;
-    private String day;
-    private String month;
-    private String year;
-    private String answer;
+    private String answerText;
 
     public User getUser() {
         return user;
@@ -28,43 +24,11 @@ public class UserAnswerDTO {
         this.questionId = questionId;
     }
 
-    public String getQuestion() {
-        return question;
+    public String getAnswerText() {
+        return answerText;
     }
 
-    public void setQuestion(String question) {
-        this.question = question;
-    }
-
-    public String getDay() {
-        return day;
-    }
-
-    public void setDay(String day) {
-        this.day = day;
-    }
-
-    public String getMonth() {
-        return month;
-    }
-
-    public void setMonth(String month) {
-        this.month = month;
-    }
-
-    public String getYear() {
-        return year;
-    }
-
-    public void setYear(String year) {
-        this.year = year;
-    }
-
-    public String getAnswer() {
-        return answer;
-    }
-
-    public void setAnswer(String answer) {
-        this.answer = answer;
+    public void setAnswerText(String answerText) {
+        this.answerText = answerText;
     }
 }
