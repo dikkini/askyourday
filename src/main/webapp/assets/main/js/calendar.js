@@ -44,6 +44,8 @@ $(document).ready(function() {
 			} else {
 				$('.btn-group button[data-calendar-nav="prev"]').prop('disabled', false);
 			}
+
+			disableFutureDays();
 		}
 	});
 
@@ -61,9 +63,22 @@ $(document).ready(function() {
 		});
 	});
 
-	$cal.find(".cal-day-today").parent().parent().nextAll().each(function() {
-		$(this).addClass("disabled");
-	})
+	function disableFutureDays() {
+		var $today = $cal.find(".cal-day-today");
+
+		if ($today.length > 0) {
+
+			var $todayWeek = $today.parent();
+			$todayWeek.nextAll().each(function () {
+				$(this).addClass("disabled");
+			});
+			$todayWeek.parent().nextAll().each(function () {
+				$(this).addClass("disabled");
+			});
+		} else {
+ 			$(".cal-cell").addClass("disabled");
+		}
+	}
 });
 
 function getTodayMonth() {

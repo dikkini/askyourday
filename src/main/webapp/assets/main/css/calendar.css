@@ -68,6 +68,11 @@ div.cal-row-fluid.disabled:hover {
     background-color: #eeeeee;
 }
 
+div.cal-cell.disabled,
+div.cal-cell.disabled:hover {
+    background-color: #eeeeee;
+}
+
 .cal-year-box .row-fluid:hover,
 .cal-row-fluid:hover {
     background-color: white;

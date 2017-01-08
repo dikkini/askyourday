@@ -11,11 +11,11 @@
 }
 
 .alert-danger {
-    width: 40%;
+    width: 300px;
     margin-top: 0px;
     margin-right: auto;
     margin-bottom: 10px;
-    margin-left: auto;
+    margin-left: -38px;
     background-color: transparent !important;
 }
 

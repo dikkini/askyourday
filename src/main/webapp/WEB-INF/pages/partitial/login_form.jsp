@@ -32,11 +32,11 @@
             <button class="btn btn-danger" type="submit"><fmt:message key="label.btn.login"/></button>
         </div>
         <hr>
-        <ul class="social">
-            <li><a target="_blank" href="https://www.facebook.com/?q=#/dikkini"><i class="fa fa-facebook"></i></a></li>
-            <li><a target="_blank" href="https://twitter.com/dikkini"><i class="fa fa-twitter"></i></a></li>
-            <li><a target="_blank" href="http://vk.com/dikkini"><i class="fa fa-vk"></i></a></li>
-        </ul>
+        <%--<ul class="social">--%>
+            <%--<li><a target="_blank" href="https://www.facebook.com/?q=#/dikkini"><i class="fa fa-facebook"></i></a></li>--%>
+            <%--<li><a target="_blank" href="https://twitter.com/dikkini"><i class="fa fa-twitter"></i></a></li>--%>
+            <%--<li><a target="_blank" href="http://vk.com/dikkini"><i class="fa fa-vk"></i></a></li>--%>
+        <%--</ul>--%>
         <p class="register-text text-center"><fmt:message key="label.text.not_registered"/> <a href="${pageContext.request.contextPath}/signup"><fmt:message key="label.link.signup"/></a></p>
     </form>
 </div>
