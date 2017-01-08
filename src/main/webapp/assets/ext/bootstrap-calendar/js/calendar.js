@@ -1217,7 +1217,7 @@ if(!String.prototype.formatNum) {
 
 		$.ajax({
 			type: "GET",
-			url: "/calendar/getDayQuestion",
+			url: window.location.pathname.substring(0, window.location.pathname.indexOf("/", 2)) +  "/calendar/getDayQuestion",
 			cache: false,
 			data: data,
 			async: false,

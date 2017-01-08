@@ -3,7 +3,7 @@ $(document).ready(function() {
 
 	var calendar = $cal.calendar({
 		language: language,
-		tmpl_path: "/assets/ext/bootstrap-calendar/tmpls/",
+		tmpl_path: window.location.pathname.substring(0, window.location.pathname.indexOf("/", 2)) + "/assets/ext/bootstrap-calendar/tmpls/",
 		tmpl_cache: false,
 		views: {
 			year:  {
@@ -27,7 +27,7 @@ $(document).ready(function() {
 			return e.title
 		},
 		events_source_custom: true,
-		events_source_url: '/calendar/getMonthUserAnswers',
+		events_source_url: window.location.pathname.substring(0, window.location.pathname.indexOf("/", 2)) + '/calendar/getMonthUserAnswers',
 		events_source_params: {
 			month: getTodayMonth(),
 			year: new Date().getFullYear()
