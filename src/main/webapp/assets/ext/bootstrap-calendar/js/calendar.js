@@ -1194,14 +1194,26 @@ if(!String.prototype.formatNum) {
 		var row = cell.closest('.cal-before-eventlist');
 		var tick_position = cell.data('cal-row');
 
-		var date = cell.find('span[data-cal-view="day"]').data('cal-date')
-		var dateSplitted = date.split("-");
+		var dateStr = cell.find('span[data-cal-view="day"]').data('cal-date');
 
+		var date = new Date(dateStr).setHours(0, 0, 0, 0);
+		var now = new Date().setHours(0, 0, 0, 0);
+
+		if (date > now) {
+			alert(javascriptStrings['WrongDayQuestion']);
+			return;
+		}
+
+		var timezone = new Date().getTimezoneOffset()/60 * (-1);
+
+		var dateSplitted = dateStr.split("-");
 		var data = {
 			day: dateSplitted[2],
 			month: dateSplitted[1],
-			year: dateSplitted[0]
+			year: dateSplitted[0],
+			timezone: timezone
 		};
+
 
 		$.ajax({
 			type: "GET",
@@ -1210,6 +1222,10 @@ if(!String.prototype.formatNum) {
 			data: data,
 			async: false,
 			success: function (response) {
+				if (!response.success) {
+					alert(javascriptStrings['WrongDayQuestion']);
+					return;
+				}
 				slider.slideUp('fast', function() {
 					var event_list = $('.events-list', cell);
 					slider.html(self.options.templates['events-list']({

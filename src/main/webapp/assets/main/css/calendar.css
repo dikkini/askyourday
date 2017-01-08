@@ -63,13 +63,18 @@ textarea.question-body {
     background-size: 100% 50px;
 }
 
+div.cal-row-fluid.disabled,
+div.cal-row-fluid.disabled:hover {
+    background-color: #eeeeee;
+}
+
 .cal-year-box .row-fluid:hover,
 .cal-row-fluid:hover {
-    background-color: white !important;
+    background-color: white;
 }
 
 [class*="cal-cell"]:hover {
-    background-color: #f28c8c !important;
+    background-color: #f28c8c;
 }
 
 #events-modal > div > div > div.modal-body {

@@ -43,7 +43,7 @@
                 <ul>
                     <li class="white"><a data-page="${pageContext.request.contextPath}/main" href="${pageContext.request.contextPath}/"><spring:message code="label.nav.main"/></a> | </li>
                     <sec:authorize access="isAnonymous()">
-                        <li class="white"><a data-page="${pageContext.request.contextPath}/demo" href="${pageContext.request.contextPath}/demo"><spring:message code="label.nav.demo"/></a> | </li>
+                        <%--s--%>
                         <li class="white"><a data-page="${pageContext.request.contextPath}/signup" href="${pageContext.request.contextPath}/signup"><spring:message code="label.nav.signup"/></a></li>
                     </sec:authorize>
                     <sec:authorize access="isAuthenticated()">

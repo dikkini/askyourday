@@ -8,14 +8,9 @@
 
 <fmt:requestEncoding value="utf-8" />
 
-<!DOCTYPE html>
-<html>
-<head>
-    <jsp:include page="../partitial/head.jsp"/>
+<jsp:include page="../partitial/top.jsp"/>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/main/css/index.css">
 
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/main/css/index.css">
-</head>
-<body>
 <div class="container">
     <div class="main">
         <jsp:include page="../partitial/navigation.jsp"/>
@@ -37,5 +32,4 @@
         <jsp:include page="../partitial/footer.jsp"/>
     </div>
 </div>
-</body>
-</html>
+<jsp:include page="../partitial/bottom.jsp"/>

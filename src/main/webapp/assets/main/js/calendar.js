@@ -1,8 +1,6 @@
 $(document).ready(function() {
 	var $cal = $("#calendar");
 
-	var monthQuestions = {};
-
 	var calendar = $cal.calendar({
 		language: language,
 		tmpl_path: "/assets/ext/bootstrap-calendar/tmpls/",
@@ -62,6 +60,10 @@ $(document).ready(function() {
 			calendar.view($this.data('calendar-view'));
 		});
 	});
+
+	$cal.find(".cal-day-today").parent().parent().nextAll().each(function() {
+		$(this).addClass("disabled");
+	})
 });
 
 function getTodayMonth() {

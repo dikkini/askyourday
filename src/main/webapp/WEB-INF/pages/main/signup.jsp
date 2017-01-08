@@ -8,19 +8,14 @@
 
 <fmt:requestEncoding value="utf-8" />
 
-<jsp:useBean id="registerUser" scope="request" class="com.fyc.controller.model.UserDTO"/>
+<jsp:useBean id="registerUser" scope="request" class="com.askyourday.controller.model.UserDTO"/>
 <jsp:useBean id="SIGNUP_ERROR" scope="request" class="java.lang.String"/>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <jsp:include page="../partitial/head.jsp"/>
+<jsp:include page="../partitial/top.jsp"/>
 
-    <script src="${pageContext.request.contextPath}/assets/main/js/signup.js" type="text/javascript" charset="utf-8"></script>
+<script src="${pageContext.request.contextPath}/assets/main/js/signup.js" type="text/javascript" charset="utf-8"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/main/css/signup.css">
 
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/main/css/signup.css">
-</head>
-<body>
 <div class="container">
     <div class="main">
         <jsp:include page="../partitial/navigation.jsp"/>
@@ -67,5 +62,4 @@
         <jsp:include page="../partitial/footer.jsp"/>
     </div>
 </div>
-</body>
-</html>
+<jsp:include page="../partitial/bottom.jsp"/>

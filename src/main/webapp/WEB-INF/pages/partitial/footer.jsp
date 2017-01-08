@@ -11,7 +11,7 @@
 <div class="row">
     <div class="col-xs-12">
         <ul class="copyright">
-            <li class="black">Copyright 2016</li>
+            <li class="black">© 2016 AskYourDay.com</li>
         </ul>
     </div>
 </div>
