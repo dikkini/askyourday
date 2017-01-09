@@ -13,6 +13,8 @@
 
 <jsp:include page="../partitial/top.jsp"/>
 
+<title><fmt:message key="label.signup.title"/></title>
+
 <script src="${pageContext.request.contextPath}/assets/main/js/signup.js" type="text/javascript" charset="utf-8"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/main/css/signup.css">
 
@@ -21,11 +23,9 @@
         <jsp:include page="../partitial/navigation.jsp"/>
         <div class="body">
             <c:if test="${not empty SIGNUP_ERROR}">
-                <div class="error-message lower-top-10">
-                    <div class="alert alert-danger alert-dismissible" role="alert">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <c:out value="${SIGNUP_ERROR}"/>
-                    </div>
+                <div id="signup-error" class="alert alert-danger alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <c:out value="${SIGNUP_ERROR}"/>
                 </div>
             </c:if>
             <div class="signup">

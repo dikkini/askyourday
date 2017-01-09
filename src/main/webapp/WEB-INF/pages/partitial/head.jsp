@@ -73,6 +73,4 @@
         javascriptStrings['WrongDayQuestion'] = "<spring:message code='WrongDayQuestion' javaScriptEscape='true' />";
 
     </script>
-
-    <title><fmt:message key="label.title"/></title>
 </head>

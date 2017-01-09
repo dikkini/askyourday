@@ -10,6 +10,8 @@
 
 <jsp:include page="../partitial/head.jsp"/>
 
+<title><fmt:message key="label.calendar.title"/></title>
+
 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/ext/bootstrap-calendar/css/calendar.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/main/css/calendar.css">
 

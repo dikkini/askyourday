@@ -12,12 +12,6 @@
 
 <div class="login">
     <h2><fmt:message key="label.login"/></h2>
-    <c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION}">
-        <div class="alert alert-danger alert-dismissible" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <fmt:message key="BadCredentialsException"/>
-        </div>
-    </c:if>
     <form id="login-form" action="${pageContext.request.contextPath}/security_check" method="POST">
         <div class="row">
             <input id="email-input" type="text" name="username" placeholder="<fmt:message key="label.email"/>" class="form-control">

@@ -10,10 +10,18 @@
 
 <jsp:include page="../partitial/top.jsp"/>
 
+<title><fmt:message key="label.login.title"/></title>
+
 <div class="container">
     <div class="main">
         <jsp:include page="../partitial/navigation.jsp"/>
         <div class="body">
+            <c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION}">
+                <div id="login-error" class="alert alert-danger alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <fmt:message key="BadCredentialsException"/>
+                </div>
+            </c:if>
             <jsp:include page="../partitial/login_form.jsp"/>
         </div>
         <jsp:include page="../partitial/footer.jsp"/>

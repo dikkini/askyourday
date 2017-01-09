@@ -9,6 +9,9 @@
 <fmt:requestEncoding value="utf-8" />
 
 <jsp:include page="../partitial/top.jsp"/>
+
+<title><fmt:message key="label.index.title"/></title>
+
 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/main/css/index.css">
 
 <div class="container">
