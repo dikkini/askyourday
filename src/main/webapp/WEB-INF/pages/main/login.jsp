@@ -22,6 +22,12 @@
                     <fmt:message key="BadCredentialsException"/>
                 </div>
             </c:if>
+            <c:if test="${not empty param.error_code}">
+                <div id="login-error" class="alert alert-danger alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <c:out value="${param.error_message}"/>
+                </div>
+            </c:if>
             <jsp:include page="../partitial/login_form.jsp"/>
         </div>
         <jsp:include page="../partitial/footer.jsp"/>

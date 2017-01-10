@@ -5,8 +5,22 @@ import com.askyourday.dao.model.Privilege;
 import com.askyourday.dao.model.Role;
 import com.askyourday.dao.model.User;
 import com.askyourday.exception.EmailExistException;
+import com.askyourday.exception.InternalErrorException;
 import com.askyourday.exception.UsernameExistException;
 import com.askyourday.service.UserService;
+import com.askyourday.utils.ApplicationConstants;
+import com.askyourday.utils.Utils;
+import com.restfb.DefaultFacebookClient;
+import com.restfb.FacebookClient;
+import com.restfb.Parameter;
+import com.restfb.Version;
+import org.apache.commons.httpclient.DefaultHttpMethodRetryHandler;
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpStatus;
+import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.commons.httpclient.params.HttpMethodParams;
+import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -17,13 +31,13 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -39,8 +53,142 @@ public class LoginSignupController {
 
     @GetMapping
     @RequestMapping("/login")
-    public ModelAndView loginPage() {
+    public ModelAndView loginPage(@RequestParam(required = false, value = "social") String social,
+                                  HttpServletResponse response, HttpServletRequest request) {
+
+        // TODO enum for social types
+        if (social.equals("fb")) {
+            String hashFacebookAuth = Utils.getHashFacebookAuth(RandomStringUtils.randomAlphabetic(10));
+            request.getSession().setAttribute(ApplicationConstants.FACEBOOK_KEY_WORD, hashFacebookAuth);
+
+            String url = "https://www.facebook.com/dialog/oauth/?"
+                    + "client_id=" + ApplicationConstants.FACEBOOK_APP_ID
+                    + "&redirect_uri=" + ApplicationConstants.FACEBOOK_REDIRECT_URL + hashFacebookAuth
+                    + "&scope=public_profile,email"
+                    + "&state=" + ApplicationConstants.FACEBOOK_EXCHANGE_KEY
+                    + "&display=page"
+                    + "&response_type=code";
+            try {
+                response.sendRedirect(url);
+            } catch (IOException e) {
+                e.printStackTrace();
+                throw new InternalErrorException("Facebook Login Error",
+                        ApplicationConstants.FACEBOOK_LOGIN_EXCEPTION_MESSAGE);
+            }
+        }
+
         return new ModelAndView("main/login");
+    }
+
+    @GetMapping
+    @RequestMapping("/login/facebook")
+    public String loginFacebook(@RequestParam(required = false, value = "authCode") String authCode,
+                                  @RequestParam(required = false, value = "social") String social,
+                                  @RequestParam(required = false, value = "error_code") String fbErrCode,
+                                  @RequestParam(required = false, value = "error_message") String fbErrMsg,
+                                  HttpServletResponse response, HttpServletRequest request) {
+
+        if (fbErrCode != null) {
+            return "redirect:/login?error_message=" + fbErrMsg;
+        }
+
+        // internal test
+        String hashFacebookAuth = (String) request.getSession().getAttribute(ApplicationConstants.FACEBOOK_KEY_WORD);
+        if (!hashFacebookAuth.equals(authCode)) {
+            throw new InternalErrorException("Facebook login error",
+                    ApplicationConstants.FACEBOOK_LOGIN_EXCEPTION_MESSAGE);
+        }
+        //Get the parameter "code" from the request
+        String code = request.getParameter("code");
+        //Check if its null or blank or empty
+        if (StringUtils.isNotEmpty(code)) {
+            //If we received a valid code, we can continue to the next step
+            //Next we want to get the access_token from Facebook using the code we got,
+            //use the following url for that, in this url,
+            //client_id-our app id(same as above),  redirect_uri-same as above, client_secret-same as
+            // above, code-the code we just got
+            String url = "https://graph.facebook.com/oauth/access_token?"
+                    + "client_id=" + ApplicationConstants.FACEBOOK_APP_ID
+                    + "&redirect_uri=" + ApplicationConstants.FACEBOOK_REDIRECT_URL + hashFacebookAuth
+                    + "&client_secret=" + ApplicationConstants.FACEBOOK_SECRET_KEY
+                    + "&code=" + code;
+            // Create an instance of HttpClient.
+            HttpClient client = new HttpClient();
+            // Create a method instance.
+            GetMethod method = new GetMethod(url);
+            // Provide custom retry handler is necessary
+            method.getParams().setParameter(HttpMethodParams.RETRY_HANDLER,
+                    new DefaultHttpMethodRetryHandler(3, false));
+            try {
+                // Execute the method.
+                int statusCode = client.executeMethod(method);
+                byte[] responseBody = method.getResponseBody();
+                String responseBodyString = new String(responseBody);
+                if (statusCode != HttpStatus.SC_OK) {
+                    System.err.println("ResponseBody: " + responseBodyString);
+                    throw new InternalErrorException("Facebook login error",
+                            ApplicationConstants.FACEBOOK_LOGIN_EXCEPTION_MESSAGE);
+                }
+                //will be like below,
+                // access_token=AAADD1QFhDlwBADrKkn87ZABAz6ZCBQZ//DZD&expires=5178320
+                //now get the access_token from the response
+                if (responseBodyString.contains("access_token")) {
+                    //success
+                    String[] mainResponseArray = responseBodyString.split("&");
+                    //like
+                    // {"access_token= AAADD1QFhDlwBADrKkn87ZABAz6ZCBQZ//DZD ","expires=5178320"}
+                    String accesstoken = "";
+                    for (String string : mainResponseArray) {
+                        if (string.contains("access_token")) {
+                            accesstoken = string.replace("access_token=", "").trim();
+                        }
+                    }
+                    //Great. Now we have the access token, I have used restfb to get the user details here
+                    FacebookClient facebookClient = new DefaultFacebookClient(accesstoken, Version.LATEST);
+
+                    // TODO сделать проверку на валидность юзера
+                    com.restfb.types.User facebookUser = facebookClient.fetchObject("me", com.restfb.types.User.class,
+                            Parameter.with("fields", "id,email,first_name,last_name,name,locale,name_format"));
+                    String firstName = facebookUser.getFirstName();
+                    String lastName = facebookUser.getLastName();
+                    String email = facebookUser.getEmail();
+                    String locale = facebookUser.getLocale();
+
+                    String username = email.split("@")[0];
+
+                    // Release the connection.
+                    method.releaseConnection();
+
+                    User byEmail = userService.findByEmail(email);
+                    if (byEmail != null) {
+                        String byEmailUsername = byEmail.getUsername();
+                        if (!byEmailUsername.equals(username)) {
+                            return "redirect:/login?error_code=" + ApplicationConstants.FACEBOOK_LOGIN_EXCEPTION_MESSAGE + "&error_message=" + "Username or Email is busy";
+                        } else {
+                            authentificateUser(byEmail);
+                            return "redirect:/calendar";
+                        }
+                    } else {
+                        User byUsername = userService.findByUsername(username);
+                        if (byUsername != null) {
+                            return "redirect:/login?error_code=" + ApplicationConstants.FACEBOOK_LOGIN_EXCEPTION_MESSAGE + "&error_message=" + "Username is busy";
+                        } else {
+                            User user = userService.registerSocialUser(username, firstName, lastName, email, 1);
+                            authentificateUser(user);
+                            return "redirect:/calendar";
+                        }
+                    }
+
+                } else {
+                    return "redirect:/login?error_code=" + ApplicationConstants.FACEBOOK_LOGIN_EXCEPTION_MESSAGE + "&error_message=" + "Facebook error login";
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.err.println("Common Exception: " + e.getMessage());
+                return "redirect:/login?error_code=" + ApplicationConstants.FACEBOOK_LOGIN_EXCEPTION_MESSAGE + "&error_message=" + "Facebook error login";
+            }
+        }
+        return "redirect:/login?error_code=" + ApplicationConstants.FACEBOOK_LOGIN_EXCEPTION_MESSAGE + "&error_message=Facebook error login.";
     }
 
     @GetMapping
@@ -80,8 +228,14 @@ public class LoginSignupController {
             return mav;
         }
 
+        authentificateUser(user);
+
+        return new ModelAndView("redirect:/calendar");
+    }
+
+    private void authentificateUser(User user) {
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
-        for (Role role : user.getRoles()){
+        for (Role role : user.getRoles()) {
             for (final Privilege privilege : role.getPrivileges()) {
                 grantedAuthorities.add(new SimpleGrantedAuthority(privilege.getName()));
             }
@@ -91,7 +245,5 @@ public class LoginSignupController {
                 new UsernamePasswordAuthenticationToken(user, null, grantedAuthorities);
 
         SecurityContextHolder.getContext().setAuthentication(auth);
-
-        return new ModelAndView("redirect:/calendar");
     }
 }

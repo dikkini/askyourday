@@ -17,6 +17,17 @@ public interface UserService {
 
     /**
      *
+     * @param username
+     * @param firstName
+     * @param lastName
+     * @param email
+     * @param authProvider
+     * @return
+     */
+    User registerSocialUser(String username, String firstName, String lastName, String email, int authProvider);
+
+    /**
+     *
      * @param user
      * @return
      */

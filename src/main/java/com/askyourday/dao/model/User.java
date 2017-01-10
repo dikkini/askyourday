@@ -46,6 +46,13 @@ public class User implements Serializable {
     @Column(name = "credentialsNonExpired")
     private boolean credentialsNonExpired;
 
+    // 0 - local
+    // 1 - facebook
+    // 2 - twitter
+    // 3 - vk
+    @Column(name = "authProvider")
+    private int authProvider;
+
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_uuid", referencedColumnName = "uuid"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
@@ -61,7 +68,7 @@ public class User implements Serializable {
 
     public User(String username, String email, String password, String firstName, String lastName,
                 boolean enabled, boolean accountNonExpired, boolean accountNonLocked,
-                boolean credentialsNonExpired, Collection<Role> roles) {
+                boolean credentialsNonExpired, Collection<Role> roles, int authProvider) {
         this.username = username;
         this.email = email;
         this.password = password;
@@ -72,6 +79,7 @@ public class User implements Serializable {
         this.accountNonLocked = accountNonLocked;
         this.credentialsNonExpired = credentialsNonExpired;
         this.roles = roles;
+        this.authProvider = authProvider;
     }
 
     public String getUuid() {
@@ -170,6 +178,14 @@ public class User implements Serializable {
         this.files = files;
     }
 
+    public int getAuthProvider() {
+        return authProvider;
+    }
+
+    public void setAuthProvider(int authProvider) {
+        this.authProvider = authProvider;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -186,6 +202,7 @@ public class User implements Serializable {
         if (!email.equals(that.email)) return false;
         if (!password.equals(that.password)) return false;
         if (!firstName.equals(that.firstName)) return false;
+        if (!(authProvider == that.authProvider)) return false;
         return lastName.equals(that.lastName);
 
     }
@@ -220,6 +237,7 @@ public class User implements Serializable {
                 ", credentialsNonExpired=" + credentialsNonExpired +
                 ", roles=" + roles +
                 ", files=" + files +
+                ", authProvider=" + authProvider +
                 '}';
     }
 }

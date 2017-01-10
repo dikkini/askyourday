@@ -95,7 +95,25 @@ public class UserServiceImpl implements UserService {
         boolean credentialsNonExpired = true;
 
         User user = new User(username, email, password, null, null, enabled, accountNonExpired,
-                accountNonLocked, credentialsNonExpired, roles);
+                accountNonLocked, credentialsNonExpired, roles, 0);
+
+        return userDAO.create(user);
+    }
+
+    @Transactional
+    @Override
+    public User registerSocialUser(String username, String firstName, String lastName, String email, int authProvider) {
+        Collection<Role> roles = new ArrayList<>();
+        Role userRole = roleDAO.findUserRole();
+        roles.add(userRole);
+
+        boolean enabled = true;
+        boolean accountNonExpired = true;
+        boolean accountNonLocked = true;
+        boolean credentialsNonExpired = true;
+
+        User user = new User(username, email, null, firstName, lastName, enabled, accountNonExpired,
+                accountNonLocked, credentialsNonExpired, roles, authProvider);
 
         return userDAO.create(user);
     }

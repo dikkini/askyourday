@@ -50,11 +50,6 @@
                         <button class="btn btn-danger" type="submit"><fmt:message key="label.btn.register"/></button>
                     </div>
                     <hr>
-                    <%--<ul class="social">--%>
-                        <%--<li><a target="_blank" href="https://www.facebook.com/?q=#/dikkini"><i class="fa fa-facebook"></i></a></li>--%>
-                        <%--<li><a target="_blank" href="https://twitter.com/dikkini"><i class="fa fa-twitter"></i></a></li>--%>
-                        <%--<li><a target="_blank" href="http://vk.com/dikkini"><i class="fa fa-vk"></i></a></li>--%>
-                    <%--</ul>--%>
                 </form>
             </div>
             <p class="text-center"><fmt:message key="label.text.registered"/> <a href="${pageContext.request.contextPath}/login"><fmt:message key="label.link.login"/></a></p>

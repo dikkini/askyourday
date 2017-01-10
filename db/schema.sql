@@ -55,11 +55,12 @@ CREATE TABLE public.users
   , firstName             VARCHAR(255)
   , lastName              VARCHAR(255)
   , email                 VARCHAR UNIQUE            NOT NULL
-  , password              TEXT                      NOT NULL
+  , password              TEXT
   , enabled               BOOLEAN                   NOT NULL
   , accountNonExpired     BOOLEAN                   NOT NULL
   , accountNonLocked      BOOLEAN                   NOT NULL
   , credentialsNonExpired BOOLEAN                   NOT NULL
+  , authProvider          INT                       NOT NULL 
 );
 
 CREATE TABLE public.question
