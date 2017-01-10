@@ -1,0 +1,6 @@
+/* Facebook*/
+(function(d, s, id) { var js, fjs = d.getElementsByTagName(s)[0]; var sdkUrl; if (language == "ru") { sdkUrl = "//connect.facebook.net/ru_RU/sdk.js#xfbml=1&version=v2.8&appId=245876892501434"; } else { sdkUrl = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8&appId=245876892501434"; } if (d.getElementById(id)) return; js = d.createElement(s); js.id = id; js.src = sdkUrl; fjs.parentNode.insertBefore(js, fjs); }(document, 'script', 'facebook-jssdk'));
+/* Twitter */
+!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
+/* G+
+(function() { var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true; po.src = 'https://apis.google.com/js/plusone.js'; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s); })();*/

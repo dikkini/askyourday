@@ -13,7 +13,7 @@
             new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
             j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-NN242JX');</script>
+    })(window,document,'script','dataLayer','GTM-NNP9HN4');</script>
     <!-- End Google Tag Manager -->
 
     <meta charset="utf-8">
@@ -72,5 +72,17 @@
         javascriptStrings['label.calendar.save'] = "<spring:message code='label.calendar.save' javaScriptEscape='true' />";
         javascriptStrings['WrongDayQuestion'] = "<spring:message code='WrongDayQuestion' javaScriptEscape='true' />";
 
+    </script>
+    <script type="text/javascript">
+        var userUuid = "${pageContext['request'].userPrincipal.principal.uuid}";
+        var language = "${cookie.localeCookie.value}";
+        language = "${cookie.localeCookie.value}";
+        var paramLocale = "${param.locale}";
+        if (paramLocale != "") {
+            language = paramLocale;
+        }
+        if (language == "") {
+            language = "ru";
+        }
     </script>
 </head>

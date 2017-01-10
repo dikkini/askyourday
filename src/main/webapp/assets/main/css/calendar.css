@@ -9,7 +9,7 @@
 /* меняем вид цифр */
 span[data-cal-date] {
     font-weight: bold;
-    font-family: "Brush Script MT", cursive;
+    font-family: 'Lato', serif;
     font-size: 4.2em;
     opacity: 1.5;
 }

@@ -18,6 +18,11 @@
     background-color: transparent !important;
 }
 
+.vertical-line {
+    border: 0;
+    border-right: 1px solid #eeeeee;
+}
+
 .lower-top-10 {
     padding-top: 10px;
 }

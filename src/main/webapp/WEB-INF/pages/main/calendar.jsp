@@ -31,7 +31,7 @@
                 <div class="col-lg-6">
                     <div id="calendar_control-btn-group" class="btn-group">
                         <button data-calendar-nav="prev" class="btn btn-danger"><i class="glyphicon glyphicon-circle-arrow-left"></i></button>
-                        <button data-calendar-nav="today" class="btn btn-danger"><i class="fa fa-location-arrow gi-5x"></i></button>
+                        <button data-calendar-nav="today" class="btn btn-danger" style="line-height: 14px;"><fmt:message key="label.calendar.today"/></button>
                         <button data-calendar-nav="next" class="btn btn-danger"><i class="glyphicon glyphicon-circle-arrow-right"></i></button>
                     </div>
                 </div>

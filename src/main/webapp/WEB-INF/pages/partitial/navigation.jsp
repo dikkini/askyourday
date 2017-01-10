@@ -12,29 +12,17 @@
 
 <jsp:useBean id="now" class="java.util.Date" />
 
-<script type="text/javascript">
-    var userUuid = "${pageContext['request'].userPrincipal.principal.uuid}";
-    var language = "${cookie.localeCookie.value}";
-    language = "${cookie.localeCookie.value}";
-    var paramLocale = "${param.locale}";
-    if (paramLocale != "") {
-        language = paramLocale;
-    }
-    if (language == "") {
-        language = "ru";
-    }
-</script>
-
-<div class="header">
+<div id="nav-anchor"></div>
+<div id="navigation" class="nav">
     <div class="locales">
         <a href="?locale=ru"><img width="30" src="${pageContext.request.contextPath}/assets/main/images/ru_locale.png"></a>
         <a href="?locale=en"><img width="30" src="${pageContext.request.contextPath}/assets/main/images/en_locale.png"></a>
     </div>
     <div class="row center">
         <div class="col-xs-2">
-            <div id="current_date">
-                <div id="date_number"><fmt:formatDate pattern="dd" value="${now}" /></div>
-                <div id="date_month"><fmt:formatDate pattern="MMMM" value="${now}" /></div>
+            <div class="now">
+                <div class="date_number"><fmt:formatDate pattern="dd" value="${now}" /></div>
+                <div class="date_month"><fmt:formatDate pattern="MMMM" value="${now}" /></div>
             </div>
         </div>
         <div class="col-xs-4 col-xs-offset-6">
@@ -43,7 +31,6 @@
                 <ul>
                     <li class="white"><a data-page="${pageContext.request.contextPath}/main" href="${pageContext.request.contextPath}/"><spring:message code="label.nav.main"/></a> | </li>
                     <sec:authorize access="isAnonymous()">
-                        <%--s--%>
                         <li class="white"><a data-page="${pageContext.request.contextPath}/signup" href="${pageContext.request.contextPath}/signup"><spring:message code="label.nav.signup"/></a></li>
                     </sec:authorize>
                     <sec:authorize access="isAuthenticated()">
