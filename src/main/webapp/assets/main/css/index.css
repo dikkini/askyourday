@@ -14,7 +14,7 @@ div.social-btn {
 }
 
 .carousel-caption {
-    top: 67%;
+    top: 86%;
 }
 
 /* цвет активного кружка в каруселе */
@@ -31,6 +31,23 @@ div.social-btn {
     width: auto;
     height: 500px;
     max-height: 500px;
+}
+
+/* убираем градиент у контролов карусели */
+.carousel-control.left {
+    background-image: none !important;
+}
+
+.carousel-control.left .glyphicon {
+    color: black;
+}
+
+.carousel-control.right {
+    background-image: none !important;
+}
+
+.carousel-control.right .glyphicon {
+    color: black;
 }
 
 .body {
