@@ -37,11 +37,26 @@
         <jsp:include page="../partitial/navigation.jsp"/>
         <div class="body">
             <div class="row">
+                <sec:authorize access="isAnonymous()">
                 <div class="col-xs-9 vertical-line">
+                </sec:authorize>
+                <sec:authorize access="isAuthenticated()">
+                    <div class="col-xs-12">
+                </sec:authorize>
                     <div class="row">
                         <div class="col-xs-12">
                             <h1 class="header-text"><fmt:message key="label.index.motto"/></h1>
-                            <small><h4 id="motto-text"><fmt:message key="label.index.motto.descr"/> <a href="${pageContext.request.contextPath}/signup"><fmt:message key="label.index.motto.descr.register"/></a> <fmt:message key="label.or"/> <a href="${pageContext.request.contextPath}/login"><fmt:message key="label.index.motto.descr.login"/></a> <fmt:message key="label.index.motto.descr2"/></h4></small>
+                            <small>
+                                <h4 id="motto-text">
+                                    <fmt:message key="label.index.motto.descr"/>
+                                    <sec:authorize access="isAnonymous()">
+                                        <a href="${pageContext.request.contextPath}/signup"><fmt:message key="label.index.motto.descr.register"/></a>
+                                        <fmt:message key="label.or"/>
+                                        <a href="${pageContext.request.contextPath}/login"><fmt:message key="label.index.motto.descr.login"/></a>
+                                        <fmt:message key="label.index.motto.descr2"/>
+                                    </sec:authorize>
+                                </h4>
+                            </small>
                         </div>
                     </div>
                     <div class="row">
