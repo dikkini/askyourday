@@ -50,11 +50,12 @@ CREATE TABLE public.file
 
 CREATE TABLE public.users
 (
-    uuid                  VARCHAR(36) PRIMARY KEY
-  , username              VARCHAR(45) UNIQUE        NOT NULL
+    uuid                  VARCHAR(36)  PRIMARY KEY
+  , username              VARCHAR(45)  UNIQUE
+  , socialId              VARCHAR(255) UNIQUE
   , firstName             VARCHAR(255)
   , lastName              VARCHAR(255)
-  , email                 VARCHAR UNIQUE            NOT NULL
+  , email                 VARCHAR      UNIQUE
   , password              TEXT
   , enabled               BOOLEAN                   NOT NULL
   , accountNonExpired     BOOLEAN                   NOT NULL

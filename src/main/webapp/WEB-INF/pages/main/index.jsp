@@ -66,6 +66,12 @@
                         <div class="col-xs-2 social-btn">
                             <a class="twitter-share-button" href="https://twitter.com/intent/tweet?URL=https%3A//askyourday.com&text=AskYourDay.com%20-%20<fmt:message key="label.index.motto"/>%0A&hashtags=<fmt:message key="label.index.twitter.hashtags"/>" >Tweet</a>
                         </div>
+                        <div class="col-xs-2 social-btn">
+                            <div id="vk_like"></div>
+                            <script type="text/javascript">
+                                VK.Widgets.Like("vk_like", {type: "button", height: 20});
+                            </script>
+                        </div>
                     </div>
                 </div>
                 <sec:authorize access="isAnonymous()">

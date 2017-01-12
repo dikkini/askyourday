@@ -22,4 +22,10 @@ public interface UserDAO extends GenericDAO<User, String> {
      */
     User findByEmail(String email) throws NoResultException;
 
+    /**
+     *
+     * @param socialId
+     * @return
+     */
+    User findBySocialId(String socialId) throws NoResultException;
 }

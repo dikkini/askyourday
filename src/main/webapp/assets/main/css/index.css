@@ -6,7 +6,11 @@
 }
 
 div.social-btn {
-    width: 11.6%;
+    width: 12.6%;
+}
+
+#vk_like {
+    margin-left: -30px;
 }
 
 .carousel-inner > .item > img {

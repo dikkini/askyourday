@@ -60,6 +60,11 @@
     <script src="${pageContext.request.contextPath}/assets/main/js/init.js" type="text/javascript" charset="utf-8"></script>
     <script src="${pageContext.request.contextPath}/assets/main/js/navigation.js" type="text/javascript" charset="utf-8"></script>
 
+    <script type="text/javascript" src="//vk.com/js/api/openapi.js?136"></script>
+    <script type="text/javascript">
+        VK.init({apiId: 5818054, onlyWidgets: true});
+    </script>
+
     <script type="text/javascript">
         var validationMessages = new Array();
         validationMessages['validate.required'] = "<spring:message code='validate.required' javaScriptEscape='true' />";

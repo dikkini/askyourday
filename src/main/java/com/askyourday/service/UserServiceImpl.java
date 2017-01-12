@@ -34,6 +34,17 @@ public class UserServiceImpl implements UserService {
     private ApplicationContext context;
 
     @Override
+    public User findBySocialId(String socialId) {
+        User user;
+        try {
+            user = userDAO.findBySocialId(socialId);
+        } catch (NoResultException e) {
+            user = null;
+        }
+        return user;
+    }
+
+    @Override
     public User findByUsername(String username) {
         User user;
         try {
@@ -94,7 +105,7 @@ public class UserServiceImpl implements UserService {
         boolean accountNonLocked = true;
         boolean credentialsNonExpired = true;
 
-        User user = new User(username, email, password, null, null, enabled, accountNonExpired,
+        User user = new User(username, null, email, password, null, null, enabled, accountNonExpired,
                 accountNonLocked, credentialsNonExpired, roles, 0);
 
         return userDAO.create(user);
@@ -102,7 +113,7 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public User registerSocialUser(String username, String firstName, String lastName, String email, int authProvider) {
+    public User registerSocialUser(String username, String socialId, String firstName, String lastName, String email, int authProvider) {
         Collection<Role> roles = new ArrayList<>();
         Role userRole = roleDAO.findUserRole();
         roles.add(userRole);
@@ -112,7 +123,7 @@ public class UserServiceImpl implements UserService {
         boolean accountNonLocked = true;
         boolean credentialsNonExpired = true;
 
-        User user = new User(username, email, null, firstName, lastName, enabled, accountNonExpired,
+        User user = new User(username, socialId, email, null, firstName, lastName, enabled, accountNonExpired,
                 accountNonLocked, credentialsNonExpired, roles, authProvider);
 
         return userDAO.create(user);

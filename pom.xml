@@ -222,6 +222,20 @@
             <version>3.1</version>
         </dependency>
 
+        <!-- Twitter auth -->
+        <dependency>
+            <groupId>org.twitter4j</groupId>
+            <artifactId>twitter4j-core</artifactId>
+            <version>[4.0,)</version>
+        </dependency>
+
+        <!-- vk.com auth -->
+        <dependency>
+            <groupId>com.vk.api</groupId>
+            <artifactId>sdk</artifactId>
+            <version>0.4.1</version>
+        </dependency>
+
         <!-- OTHER -->
         <dependency>
             <groupId>commons-fileupload</groupId>

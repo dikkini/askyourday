@@ -22,6 +22,9 @@ public class User implements Serializable {
     @Column(name = "username")
     private String username;
 
+    @Column(name = "socialId")
+    private String socialId;
+
     @Column(name = "email")
     private String email;
 
@@ -66,10 +69,11 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(String username, String email, String password, String firstName, String lastName,
+    public User(String username, String socialId, String email, String password, String firstName, String lastName,
                 boolean enabled, boolean accountNonExpired, boolean accountNonLocked,
                 boolean credentialsNonExpired, Collection<Role> roles, int authProvider) {
         this.username = username;
+        this.socialId = socialId;
         this.email = email;
         this.password = password;
         this.firstName = firstName;
@@ -96,6 +100,14 @@ public class User implements Serializable {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getSocialId() {
+        return socialId;
+    }
+
+    public void setSocialId(String socialId) {
+        this.socialId = socialId;
     }
 
     public String getEmail() {

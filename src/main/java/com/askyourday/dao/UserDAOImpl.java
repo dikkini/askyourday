@@ -38,4 +38,16 @@ public class UserDAOImpl extends GenericDAOImpl<User, String> implements UserDAO
         criteriaQuery.where(builder.equal(userRoot.get(User_.email), email));
         return em.createQuery(criteriaQuery).getSingleResult();
     }
+
+    @Override
+    public User findBySocialId(String socialId) throws NoResultException {
+        EntityManager em = sessionFactory.createEntityManager();
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<User> criteriaQuery = builder.createQuery(User.class);
+
+        Root<User> userRoot = criteriaQuery.from(User.class);
+        criteriaQuery.select(userRoot);
+        criteriaQuery.where(builder.equal(userRoot.get(User_.socialId), socialId));
+        return em.createQuery(criteriaQuery).getSingleResult();
+    }
 }

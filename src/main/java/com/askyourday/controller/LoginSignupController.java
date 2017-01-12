@@ -1,6 +1,7 @@
 package com.askyourday.controller;
 
 import com.askyourday.controller.model.UserDTO;
+import com.askyourday.controller.model.VKAuthResponse;
 import com.askyourday.dao.model.Privilege;
 import com.askyourday.dao.model.Role;
 import com.askyourday.dao.model.User;
@@ -10,10 +11,16 @@ import com.askyourday.exception.UsernameExistException;
 import com.askyourday.service.UserService;
 import com.askyourday.utils.ApplicationConstants;
 import com.askyourday.utils.Utils;
+import com.google.gson.*;
+import com.google.gson.stream.JsonReader;
 import com.restfb.DefaultFacebookClient;
 import com.restfb.FacebookClient;
 import com.restfb.Parameter;
 import com.restfb.Version;
+import com.vk.api.sdk.client.TransportClient;
+import com.vk.api.sdk.client.VkApiClient;
+import com.vk.api.sdk.exceptions.ClientException;
+import com.vk.api.sdk.httpclient.HttpTransportClient;
 import org.apache.commons.httpclient.DefaultHttpMethodRetryHandler;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpStatus;
@@ -21,6 +28,7 @@ import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -33,17 +41,25 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.TwitterFactory;
+import twitter4j.auth.AccessToken;
+import twitter4j.auth.RequestToken;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.HashSet;
 import java.util.Set;
 
 @Controller
 @RequestMapping("/")
 public class LoginSignupController {
+
+    private Logger logger = Logger.getLogger(this.getClass());
 
     @Autowired
     private UserService userService;
@@ -57,7 +73,9 @@ public class LoginSignupController {
                                   HttpServletResponse response, HttpServletRequest request) {
 
         // TODO enum for social types
-        if (social.equals("fb")) {
+        // TODO seperate jar for social auth
+
+        if (social != null && social.equals("fb")) {
             String hashFacebookAuth = Utils.getHashFacebookAuth(RandomStringUtils.randomAlphabetic(10));
             request.getSession().setAttribute(ApplicationConstants.FACEBOOK_KEY_WORD, hashFacebookAuth);
 
@@ -75,18 +93,121 @@ public class LoginSignupController {
                 throw new InternalErrorException("Facebook Login Error",
                         ApplicationConstants.FACEBOOK_LOGIN_EXCEPTION_MESSAGE);
             }
+        } else if (social != null && social.equals("vk")) {
+            try {
+                response.sendRedirect("https://oauth.vk.com/authorize?client_id=" + "5818054" + "&scope=" + "email" + "&redirect_uri=https://askyourday.com/login/vk&response_type=code&v=5.62");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else if (social != null && social.equals("tw")) {
+            Twitter twitter = new TwitterFactory().getInstance();
+            twitter.setOAuthConsumer("7aF2vzTm2IkWeW4DbC6G9sCCm", "1n8pHOWsDJcREFlHr0eUYysaHLmUjpWu4oKkFiCwIGNvJoKcvZ");
+            request.getSession().setAttribute("twitter", twitter);
+            try {
+                String callbackURL = "https://askyourday.com/login/twitter";
+
+                RequestToken requestToken = twitter.getOAuthRequestToken(callbackURL);
+                request.getSession().setAttribute("requestToken", requestToken);
+                response.sendRedirect(requestToken.getAuthenticationURL());
+
+            } catch (TwitterException | IOException e) {
+                e.printStackTrace();
+            }
         }
 
         return new ModelAndView("main/login");
     }
 
     @GetMapping
+    @RequestMapping("/login/twitter")
+    public String loginTwitter(@RequestParam(required = true, value = "oauth_verifier") String verifier,
+                               @RequestParam(required = true, value = "oauth_token") String token,
+                               HttpServletResponse response, HttpServletRequest request) {
+        Twitter twitter = (Twitter) request.getSession().getAttribute("twitter");
+        RequestToken requestToken = (RequestToken) request.getSession().getAttribute("requestToken");
+        try {
+            AccessToken oAuthAccessToken = twitter.getOAuthAccessToken(requestToken, verifier);
+            String screenName = twitter.getScreenName();
+            long id = twitter.getId();
+            request.getSession().removeAttribute("requestToken");
+            // TODO check existing user by id, register user, auth user
+            User bySocialId = userService.findBySocialId(String.valueOf(id));
+
+            if (bySocialId != null) {
+                authentificateUser(bySocialId);
+            } else {
+                User user = userService.registerSocialUser(null, String.valueOf(id), null, null, null, 3);
+                authentificateUser(user);
+            }
+        } catch (TwitterException e) {
+            e.printStackTrace();
+        }
+
+        return "redirect:/calendar";
+    }
+
+    @GetMapping
+    @RequestMapping("/login/vk")
+    public String loginVK(@RequestParam(required = false, value = "code") String code,
+                               HttpServletResponse response, HttpServletRequest request) {
+        try {
+            TransportClient transportClient = HttpTransportClient.getInstance();
+            VkApiClient vk = new VkApiClient(transportClient, new Gson());
+            String textResponse = vk.oauth().userAuthorizationCodeFlow(5818054, "zGNReBHxD2920LtZnYEy", "https://askyourday.com/login/vk", code).executeAsString();
+
+            JsonReader jsonReader = new JsonReader(new StringReader(textResponse));
+            JsonObject json = (JsonObject)(new JsonParser()).parse(jsonReader);
+            if (json.has("error")) {
+                // TODO
+                return "redirect:/login?error_message=We can't login you using vkontakte. Please choose other method.";
+            }
+
+            VKAuthResponse vkAuthResponse;
+            try {
+                vkAuthResponse = new Gson().fromJson(json, VKAuthResponse.class);
+            } catch (JsonSyntaxException var8) {
+                logger.error("Invalid JSON: " + textResponse, var8);
+                throw new ClientException("Can\'t parse json response");
+            }
+
+            String email = vkAuthResponse.getEmail();
+            Integer userId = vkAuthResponse.getUserId();
+
+            User bySocialId = userService.findBySocialId(userId.toString());
+
+            if (email != null) {
+                User byEmail = userService.findByEmail(email);
+                if (byEmail != null && bySocialId != null) {
+                    if (byEmail.getSocialId().equals(bySocialId.getSocialId())) {
+                        authentificateUser(bySocialId);
+                    } else {
+                        return "redirect:/login?error_code=123&error_message=Email is busy";
+                    }
+                } else {
+                    User user = userService.registerSocialUser(null, userId.toString(), null, null, email, 3);
+                    authentificateUser(user);
+                }
+            } else {
+                if (bySocialId != null) {
+                    authentificateUser(bySocialId);
+                } else {
+                    User user = userService.registerSocialUser(null, userId.toString(), null, null, null, 3);
+                    authentificateUser(user);
+                }
+            }
+
+        } catch (ClientException e) {
+            e.printStackTrace();
+        }
+        return "redirect:/calendar";
+    }
+
+    @GetMapping
     @RequestMapping("/login/facebook")
     public String loginFacebook(@RequestParam(required = false, value = "authCode") String authCode,
-                                  @RequestParam(required = false, value = "social") String social,
-                                  @RequestParam(required = false, value = "error_code") String fbErrCode,
-                                  @RequestParam(required = false, value = "error_message") String fbErrMsg,
-                                  HttpServletResponse response, HttpServletRequest request) {
+                                @RequestParam(required = false, value = "error_code") String fbErrCode,
+                                @RequestParam(required = false, value = "error_message") String fbErrMsg,
+                                HttpServletResponse response, HttpServletRequest request) {
 
         if (fbErrCode != null) {
             return "redirect:/login?error_message=" + fbErrMsg;
@@ -152,7 +273,7 @@ public class LoginSignupController {
                     String firstName = facebookUser.getFirstName();
                     String lastName = facebookUser.getLastName();
                     String email = facebookUser.getEmail();
-                    String locale = facebookUser.getLocale();
+                    String id = facebookUser.getId();
 
                     String username = email.split("@")[0];
 
@@ -173,7 +294,7 @@ public class LoginSignupController {
                         if (byUsername != null) {
                             return "redirect:/login?error_code=" + ApplicationConstants.FACEBOOK_LOGIN_EXCEPTION_MESSAGE + "&error_message=" + "Username is busy";
                         } else {
-                            User user = userService.registerSocialUser(username, firstName, lastName, email, 1);
+                            User user = userService.registerSocialUser(username, id, firstName, lastName, email, 1);
                             authentificateUser(user);
                             return "redirect:/calendar";
                         }

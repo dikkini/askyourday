@@ -10,6 +10,13 @@ public interface UserService {
 
     /**
      *
+     * @param socialId
+     * @return
+     */
+    User findBySocialId(String socialId);
+
+    /**
+     *
      * @param userDTO
      * @return
      */
@@ -18,13 +25,14 @@ public interface UserService {
     /**
      *
      * @param username
+     * @param socialId
      * @param firstName
      * @param lastName
      * @param email
      * @param authProvider
      * @return
      */
-    User registerSocialUser(String username, String firstName, String lastName, String email, int authProvider);
+    User registerSocialUser(String username, String socialId, String firstName, String lastName, String email, int authProvider);
 
     /**
      *
