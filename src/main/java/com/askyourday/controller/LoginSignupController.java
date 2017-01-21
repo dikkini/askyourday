@@ -11,7 +11,10 @@ import com.askyourday.exception.UsernameExistException;
 import com.askyourday.service.UserService;
 import com.askyourday.utils.ApplicationConstants;
 import com.askyourday.utils.Utils;
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonReader;
 import com.restfb.DefaultFacebookClient;
 import com.restfb.FacebookClient;
@@ -78,7 +81,6 @@ public class LoginSignupController {
         if (social != null && social.equals("fb")) {
             String hashFacebookAuth = Utils.getHashFacebookAuth(RandomStringUtils.randomAlphabetic(10));
             request.getSession().setAttribute(ApplicationConstants.FACEBOOK_KEY_WORD, hashFacebookAuth);
-
             String url = "https://www.facebook.com/dialog/oauth/?"
                     + "client_id=" + ApplicationConstants.FACEBOOK_APP_ID
                     + "&redirect_uri=" + ApplicationConstants.FACEBOOK_REDIRECT_URL + hashFacebookAuth
