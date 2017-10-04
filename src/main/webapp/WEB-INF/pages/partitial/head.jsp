@@ -61,6 +61,7 @@
     <script src="${pageContext.request.contextPath}/assets/ext/moment/moment.js" type="text/javascript"></script>
     <script src="${pageContext.request.contextPath}/assets/ext/underscore/underscore.js" type="text/javascript"></script>
     <script src="${pageContext.request.contextPath}/assets/ext/modernizr.js" type="text/javascript" charset="utf-8"></script>
+    <script src="${pageContext.request.contextPath}/assets/ext/jquery/jquery.elastic.source.js" type="text/javascript" charset="utf-8"></script>
 
     <script src="${pageContext.request.contextPath}/assets/main/js/init.js" type="text/javascript" charset="utf-8"></script>
     <script src="${pageContext.request.contextPath}/assets/main/js/navigation.js" type="text/javascript" charset="utf-8"></script>

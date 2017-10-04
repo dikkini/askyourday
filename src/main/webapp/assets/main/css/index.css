@@ -54,12 +54,6 @@ div.social-btn {
     color: black;
 }
 
-.body {
-    padding-top: 20px;
-    padding-left: 50px;
-    padding-right: 50px;
-}
-
 #login-module .login {
     text-align: center;
     padding-left: inherit !important;

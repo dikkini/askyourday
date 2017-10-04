@@ -1,3 +1,9 @@
+.body {
+    padding-top: 20px;
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
 .white {
     color: white;
 }
@@ -21,6 +27,11 @@
 .vertical-line {
     border: 0;
     border-right: 1px solid #eeeeee;
+}
+
+.no-margin-rl {
+    margin-left: 0;
+    margin-right: 0;
 }
 
 .lower-top-10 {
