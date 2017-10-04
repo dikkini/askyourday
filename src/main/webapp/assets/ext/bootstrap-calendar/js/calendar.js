@@ -862,7 +862,7 @@ if(!String.prototype.formatNum) {
 				var events = [];
 				var url = self.options.events_source_url;
 				var params = self.options.events_source_params;
-				if (date != 'now') {
+				if (date !== 'now') {
 					var dateSplitted = date.split("-");
 					var month = dateSplitted[1];
 					var year = dateSplitted[0];
@@ -1200,7 +1200,7 @@ if(!String.prototype.formatNum) {
 		var now = new Date().setHours(0, 0, 0, 0);
 
 		if (date > now) {
-			alert(javascriptStrings['WrongDayQuestion']);
+            notyWarning(javascriptStrings['WrongDayQuestion'], true);
 			return;
 		}
 
@@ -1223,7 +1223,7 @@ if(!String.prototype.formatNum) {
 			async: false,
 			success: function (response) {
 				if (!response.success) {
-					alert(javascriptStrings['WrongDayQuestion']);
+                    notyWarning(javascriptStrings['WrongDayQuestion'], true);
 					return;
 				}
 				slider.slideUp('fast', function() {
@@ -1234,6 +1234,7 @@ if(!String.prototype.formatNum) {
 						question: response.data.questionText,
 						questionId: response.data.question.id
 					}));
+
 					row.after(slider);
 					self.activecell = $('[data-cal-date]', cell).text();
 					$('#cal-slide-tick').addClass('tick' + tick_position).show();
@@ -1254,6 +1255,9 @@ if(!String.prototype.formatNum) {
 				$('a.event-item').mouseleave(function() {
 					$('div.cal-cell1').removeClass('day-highlight dh-' + $(this).data('event-class'));
 				});
+
+				// update textarea to fit content
+				$('#userAnswer-form').find('.question-body').elastic();
 
 				// Wait 400ms before updating the modal (400ms is the time for the slider to fade out and slide up)
 				setTimeout(function() {
@@ -1279,7 +1283,7 @@ if(!String.prototype.formatNum) {
 		var k = c % 4;
 		var l = (32 + 2 * e + 2 * i - h - k) % 7;
 		var m = Math.floor((a + 11 * h + 22 * l) / 451);
-		var n0 = (h + l + 7 * m + 114)
+		var n0 = (h + l + 7 * m + 114);
 		var n = Math.floor(n0 / 31) - 1;
 		var p = n0 % 31 + 1;
 		return new Date(year, n, p + (offsetDays ? offsetDays : 0), 0, 0, 0);

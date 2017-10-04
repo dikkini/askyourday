@@ -1,6 +1,7 @@
 $(document).ready(function() {
 	var $cal = $("#calendar");
 
+	var selectedYear, selectedMonth;
 	var calendar = $cal.calendar({
 		language: language,
 		tmpl_path: window.location.pathname.substring(0, window.location.pathname.indexOf("/", 2)) + "/assets/ext/bootstrap-calendar/tmpls/",
@@ -37,9 +38,9 @@ $(document).ready(function() {
 			$('.btn-group button').removeClass('active');
 			$('button[data-calendar-view="' + view + '"]').addClass('active');
 
-			var year = this.options.position.start.getFullYear();
-			var month = this.options.position.start.getMonth();
-			if (month == 0 && year == 2017) {
+            selectedYear = this.options.position.start.getFullYear();
+			selectedMonth = this.options.position.start.getMonth();
+			if (selectedMonth === 0 && selectedYear === 2017) {
 				$('.btn-group button[data-calendar-nav="prev"]').prop('disabled', true);
 			} else {
 				$('.btn-group button[data-calendar-nav="prev"]').prop('disabled', false);
@@ -67,7 +68,6 @@ $(document).ready(function() {
 		var $today = $cal.find(".cal-day-today");
 
 		if ($today.length > 0) {
-
 			var $todayWeek = $today.parent();
 			$todayWeek.nextAll().each(function () {
 				$(this).addClass("disabled");
@@ -76,7 +76,16 @@ $(document).ready(function() {
 				$(this).addClass("disabled");
 			});
 		} else {
- 			$(".cal-cell").addClass("disabled");
+
+            var nowYear = new Date().getFullYear();
+            var nowMonth = getTodayMonth();
+
+            selectedMonth += 1;
+
+            // old years disable
+            if (selectedYear > nowYear || selectedMonth > nowMonth) {
+                $(".cal-cell").addClass("disabled");
+			}
 		}
 	}
 });

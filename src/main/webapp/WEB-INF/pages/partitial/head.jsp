@@ -44,6 +44,8 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/ext/fonts/fontello/css/fontello.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/ext/fonts/fonts.css">
 
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/ext/noty/noty.css">
+
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/main/css/common.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/main/css/default.css">
 
@@ -51,6 +53,9 @@
     <script src="${pageContext.request.contextPath}/assets/ext/jquery/jquery.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="${pageContext.request.contextPath}/assets/ext/jquery/jquery.validate.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="${pageContext.request.contextPath}/assets/ext/jquery/jquery-validate.bootstrap-tooltip.min.js" type="text/javascript" charset="utf-8"></script>
+
+    <script src="${pageContext.request.contextPath}/assets/ext/noty/noty.js" type="text/javascript" charset="utf-8"></script>
+    <script src="${pageContext.request.contextPath}/assets/main/js/notification.js" type="text/javascript" charset="utf-8"></script>
 
     <script src="${pageContext.request.contextPath}/assets/ext/bootstrap/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
     <script src="${pageContext.request.contextPath}/assets/ext/moment/moment.js" type="text/javascript"></script>
@@ -76,6 +81,7 @@
         var javascriptStrings = new Array();
         javascriptStrings['label.calendar.save'] = "<spring:message code='label.calendar.save' javaScriptEscape='true' />";
         javascriptStrings['WrongDayQuestion'] = "<spring:message code='WrongDayQuestion' javaScriptEscape='true' />";
+        javascriptStrings['AnswerSaved'] = "<spring:message code='AnswerSaved' javaScriptEscape='true' />";
 
     </script>
     <script type="text/javascript">
@@ -83,10 +89,10 @@
         var language = "${cookie.localeCookie.value}";
         language = "${cookie.localeCookie.value}";
         var paramLocale = "${param.locale}";
-        if (paramLocale != "") {
+        if (paramLocale !== "") {
             language = paramLocale;
         }
-        if (language == "") {
+        if (language === "") {
             language = "ru";
         }
     </script>

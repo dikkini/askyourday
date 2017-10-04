@@ -1,18 +1,18 @@
 <span id="cal-slide-tick" style="display: none"></span>
+
 <div id="cal-slide-content" class="cal-event-list">
 	<h3 id="<%= questionId %>" class="question-header"><%= question %></h3>
 	<button id="save-btn" type="button" class="btn btn-link right">Save</button>
 	<form id="userAnswer-form">
-	<% if (_.size(events) > 0) { %>
-		<% _.each(events, function(event) { %>
-			<textarea id="<%= event.id %>" class="question-body" name="userAnswer" maxlength="5000" required>
-			<%= event.text %>
-			</textarea>
-		<% }) %>
-	<% } else { %>
+		<% if (_.size(events) > 0) { %>
+			<% _.each(events, function(event) { %>
+				<textarea id="<%= event.id %>" class="question-body" name="userAnswer" maxlength="5000" required><%= event.text %></textarea>
+			<% }) %>
+		<% } else { %>
 			<textarea class="question-body" name="userAnswer" maxlength="5000" required></textarea>
-	<% } %>
+		<% } %>
 	</form>
+</div>
 
 	<script>
 		$(document).ready(function () {
@@ -21,14 +21,13 @@
 
 
 			var $questionBody = $('textarea.question-body');
-			$questionBody.elastic();
 
 			var $userAnswerForm = $("#userAnswer-form");
 
 			$userAnswerForm.validate({
 				tooltip_options: {
 					userAnswer: {
-						placement: 'top'
+						placement: 'bottom'
 					}
 				}
 			});
@@ -45,7 +44,7 @@
 
 				var data = {};
 				var isSave = false;
-				if ($questionBody.attr("id") == undefined) {
+				if ($questionBody.attr("id") === undefined) {
 					isSave = true;
 					data.questionId = $(".question-header").attr("id");
 				} else {
@@ -61,11 +60,10 @@
 					data: data,
 					async: false,
 					success: function (response) {
-						console.log(response);
-						window.location.reload();
+                        notySuccess(javascriptStrings['AnswerSaved']);
 					},
 					error: function (response) {
-						console.log("error");
+                        notySuccess('Error when save/update answer. Write on admin@askyourday.com');
 					}
 				});
 			});

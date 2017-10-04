@@ -4,7 +4,7 @@ $(document).ready(function () {
 
 	$signupForm.find('input').on('keyup keypress blur change', function(e) {
 		var isInvalid = $(this).hasClass("error");
-		if (isInvalid == true) {
+		if (isInvalid === true) {
 			$(this).parent().removeClass("has-success");
 			$(this).parent().addClass("has-error");
 		} else {
