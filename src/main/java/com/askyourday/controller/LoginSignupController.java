@@ -32,6 +32,8 @@ import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -55,8 +57,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.io.StringReader;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 @RequestMapping("/")
@@ -260,12 +261,12 @@ public class LoginSignupController {
                     String[] mainResponseArray = responseBodyString.split("&");
                     //like
                     // {"access_token= AAADD1QFhDlwBADrKkn87ZABAz6ZCBQZ//DZD ","expires=5178320"}
-                    String accesstoken = "";
-                    for (String string : mainResponseArray) {
-                        if (string.contains("access_token")) {
-                            accesstoken = string.replace("access_token=", "").trim();
-                        }
-                    }
+                    String json = Arrays.toString(mainResponseArray);
+                    json = json.substring(1, json.length()-1);
+                    ObjectMapper mapper = new ObjectMapper();
+                    Map<String, Object> map = mapper.readValue(json, new TypeReference<Map<String, String>>(){});
+                    String accesstoken = (String) map.get("access_token");
+                    logger.info("Facebook accesstoken: " + accesstoken);
                     //Great. Now we have the access token, I have used restfb to get the user details here
                     FacebookClient facebookClient = new DefaultFacebookClient(accesstoken, Version.LATEST);
 
